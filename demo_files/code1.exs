@@ -1,19 +1,16 @@
-[head|tail] = [1, 2, 3]
-head = 1
-tail = [2, 3]
+defmodule MyModule do
+  @moduledoc """
+  This is a doc description.
+  """
 
-[head|tail] = [1]
-head = 1
-tail = []
+  ### Public API
+  def start_link do
+    :gen_server.start_link({:local, :mymod}, __MODULE__, [], [])
+  end
+end
 
-[] = []
-
-# This does not match, no value for head
-[head|tail] = []
-
-# match head value
-[1 | tail ]= [1, 2, 3]
-tail = [2, 3]
-
-# use underscore to ignore a variable
-[head | _ ]= [1, 2, 3]
+defrecord Genius, first_name: "Albert", last_name: "Einstein" do
+  def name record do # huh ?
+    "#{record.first_name} #{record.last_name}"
+  end
+end
