@@ -53,7 +53,8 @@ config :prexent, PrexentWeb.Endpoint,
       ~r"priv/gettext/.*(po)$",
       ~r"lib/prexent_web/{live,views}/.*(ex)$",
       ~r"lib/prexent_web/templates/.*(eex)$",
-      ~r{lib/prexent_web/live/.*(ex)$}
+      # TODO Improve this!
+      ~r{demo_files/.*$}
     ]
   ]
 

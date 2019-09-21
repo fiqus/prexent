@@ -18,6 +18,7 @@ defmodule PrexentWeb.Router do
     pipe_through :browser
 
     live "/", SlidesLive
+    live "/:slide", SlidesLive
   end
 
   # Other scopes may use custom stacks.

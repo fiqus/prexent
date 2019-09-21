@@ -12,17 +12,59 @@ defmodule PrexentWeb.SlidesLive do
     {:ok, assign(socket, slides: slides, slide: 0)}
   end
 
-  def handle_event("keyup", %{"key" => "ArrowLeft"}, socket) do
-    {:noreply, assign(socket, :slide, max(socket.assigns.slide - 1, 0))}
+  def handle_params(%{"slide" => slide}, _uri, socket) do
+    num = parse_slide_num(socket, slide)
+    {:noreply, assign(socket, slide: num)}
   end
 
-  def handle_event("keyup", %{"key" => key}, socket) when key in ["ArrowRight", " "] do
-    {:noreply,
-     assign(socket, :slide, min(socket.assigns.slide + 1, length(socket.assigns.slides) - 1))}
-  end
-
-  def handle_event("keyup", k, socket) do
-    IO.inspect(k)
+  def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  def handle_event("keyup", %{"key" => "ArrowLeft"}, socket) do
+    handle_slide_change(socket, max(socket.assigns.slide - 1, 0))
+  end
+
+  def handle_event("keyup", %{"key" => "ArrowRight"}, socket) do
+    handle_slide_change(socket, min(socket.assigns.slide + 1, length(socket.assigns.slides) - 1))
+  end
+
+  def handle_event("keyup", _event, socket) do
+    {:noreply, socket}
+  end
+
+  defp handle_slide_change(socket, slide) do
+    num = parse_slide_num(socket, slide)
+
+    if socket.assigns.slide != num do
+      {:noreply,
+       live_redirect(
+         socket,
+         to: Routes.live_path(socket, __MODULE__, num)
+       )}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  defp valid_slide?(%{assigns: %{slides: slides}}, num) do
+    num >= 0 and num <= length(slides) - 1
+  end
+
+  defp parse_slide_num(socket, slide) do
+    num = parse_slide_num(slide)
+
+    if valid_slide?(socket, num),
+      do: num,
+      else: 0
+  end
+
+  defp parse_slide_num(slide) when is_integer(slide), do: slide
+
+  defp parse_slide_num(slide) do
+    case(Integer.parse(slide)) do
+      {int, _} -> int
+      _ -> 0
+    end
   end
 end
