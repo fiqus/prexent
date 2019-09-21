@@ -1,6 +1,15 @@
 # Prexent
+## Spawnfest 2019 project by Fiqus team!
 
-To start your Phoenix server:
+Description here (WIP).
+
+## Pre-requisites
+You will have to install:
+  * `Elixir` 1.9 or later
+  * `Erlang/OTP` 22 or later
+  * `Node.js` 12 or later
+
+## To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
   * Install Node.js dependencies with `cd assets && npm install`
