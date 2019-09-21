@@ -15,61 +15,77 @@ defmodule Prexent.Parser do
   """
   @spec to_html_list(String.t()) :: List.t()
   def to_html_list(path_to_file) do
-    case File.read(path_to_file) do
-      {:ok, content} ->
-        content
-        |> parse_content()
-        |> String.split("---")
-
-      {:error, reason} ->
-        Logger.error("The markdown file couldn't be read, reason: #{inspect(reason)}")
-        []
+    try do
+      read_file!(path_to_file)
+      |> parse_content()
+      # Quizá splittear antes y parsear de a chunks?
+      |> String.split("---")
+    catch
+      :enoent -> ["# Markdown file not found!\n#{path_to_file}"]
+      reason -> ["# Markdown file read failed!\n## Reason '#{inspect(reason)}'\n#{path_to_file}"]
     end
-    |> Enum.map(
-         fn slide ->
-           case Earmark.as_html(slide) do
-             {:ok, html_doc, _} ->
-               html_doc
+    |> Enum.map(fn slide ->
+      case Earmark.as_html(slide) do
+        {:ok, html_doc, _} ->
+          html_doc
 
-             {:error, _html_doc, error_messages} ->
-               error_messages
-           end
-         end
-       )
+        {:error, _html_doc, error_messages} ->
+          error_messages
+      end
+    end)
   end
 
   defp parse_content(content) do
     regex = ~r/^!([\S*]+) ([\S*]+).*$/m
+
     Regex.scan(regex, content)
     |> Enum.reduce(
-         content,
-         fn [line, command, argument], acc ->
-           process_command(acc, line, command, argument)
-         end
-       )
+      content,
+      fn [line, command, argument], acc ->
+        case process_command(command, argument) do
+          {:replace, parsed} -> String.replace(acc, line, parsed)
+          _ -> acc
+        end
+      end
+    )
   end
 
-  defp process_command(content, line, "code", argument) do
-    case File.read(Path.absname(argument)) do
-      {:ok, file_content} ->
-        IO.inspect(file_content)
-        String.replace(content, line, "```\n#{file_content}\n```")
+  defp process_command("code", path_to_file) do
+    content =
+      try do
+        file_content = read_file!(path_to_file)
+        "```\n#{file_content}\n```"
+      catch
+        _ -> "Code file not found: #{path_to_file}"
+      end
+
+    {:replace, content}
+  end
+
+  defp process_command("include", path_to_file) do
+    content =
+      try do
+        read_file!(path_to_file)
+        |> parse_content()
+      catch
+        _ -> "Included file not found: #{path_to_file}"
+      end
+
+    {:replace, content}
+  end
+
+  defp process_command(_, _), do: nil
+
+  defp read_file!(path_to_file) do
+    abspath = Path.absname(path_to_file)
+
+    case File.read(abspath) do
+      {:ok, content} ->
+        content
+
       {:error, reason} ->
-        Logger.error("The markdown file couldn't be read, reason: #{inspect(reason)}")
-        String.replace(content, line, "")
+        Logger.error("Couldn't read file with reason '#{inspect(reason)}'\n#{abspath}")
+        throw(reason)
     end
   end
-
-  defp process_command(content, line, "include", argument) do
-    case File.read(Path.absname(argument)) do
-      {:ok, included_content} ->
-        String.replace(content, line, parse_content(included_content))
-
-      {:error, reason} ->
-        Logger.error("The markdown file couldn't be read, reason: #{inspect(reason)}")
-        String.replace(content, line, "")
-    end
-  end
-
-  defp process_command(content, _, _, _), do: content
 end
