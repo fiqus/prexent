@@ -1,0 +1,7 @@
+<div id="container" phx-keyup="keyup" phx-target="window">
+    <%= for {slide, i} <- Enum.with_index(@slides) do %>
+        <div class="slide <%= if i < @slide, do: "left" %> <%= if i > @slide, do: "right" %>">
+            <%= slide %>
+        </div>
+    <% end %>
+</div>

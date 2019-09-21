@@ -1,4 +1,35 @@
-/* This file is for your main application css. */
+html, body {
+    padding: 0;
+    margin: 0;
+    background-color: #EEEEEE;
+    overflow: hidden;
+}
 
-@import "./phoenix.css";
-@import "../../deps/phoenix_live_view/assets/css/live_view.css";
+div.slide {
+    box-sizing: border-box;
+    border: 1px solid lightgray;
+    position: absolute;
+    top: 3%;
+    bottom: 3%;
+    width: 94%;
+    margin: 0 3%;
+    padding: 5%;
+    left: 0;
+    right: 0;
+    border-radius: 20px;
+    background-color: #fafafa;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+    transition: left 400ms ,right 400ms;
+}
+
+div.slide.right {
+    left: 96%;
+    right: -96%
+}
+
+div.slide.left {
+    right: 96%;
+    left: -96%
+}
