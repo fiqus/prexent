@@ -9,7 +9,7 @@ defmodule PrexentWeb.SlidesLive do
 
   def mount(_, socket) do
     slides = Prexent.Parser.to_parsed_list("demo_files/demo1.md")
-    {:ok, assign(socket, slides: slides, slide: 0)}
+    {:ok, assign(socket, slides: slides, slide: 0, code_runners: %{})}
   end
 
   def handle_params(%{"slide" => slide}, _uri, socket) do
@@ -29,7 +29,15 @@ defmodule PrexentWeb.SlidesLive do
     handle_slide_change(socket, min(socket.assigns.slide + 1, length(socket.assigns.slides) - 1))
   end
 
-  def handle_event("keyup", _event, socket) do
+  def handle_event("run", %{"id" => id}, socket) do
+    {:noreply, assign(socket, :code_runners, Map.put(socket.assigns.code_runners, parse_slide_num(id), "test"))}
+  end
+
+  def handle_event("close", %{"id" => id}, socket) do
+    {:noreply, assign(socket, :code_runners, Map.delete(socket.assigns.code_runners, parse_slide_num(id)))}
+  end
+
+  def handle_event(ev, data, socket) do
     {:noreply, socket}
   end
 

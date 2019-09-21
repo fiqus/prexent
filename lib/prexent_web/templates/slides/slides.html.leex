@@ -6,8 +6,13 @@
         <%= if i < @slide - 1, do: "lefter" %>
         <%= if i > @slide + 1, do: "righter" %>">
             <%= for slide_data <- slide do %>
-                <%= raw parse_slide(slide_data) %>
+                <%= raw parse_slide(i, slide_data) %>
             <% end %>
+            <div class='code-output-container <%= if Map.get(@code_runners, @slide) != nil, do: "running" %>'>
+                <div class='code-output'>
+                    <button phx-click='close' phx-value-id='<%= i %>'>Close</button>
+                </div>
+            </div>
         </div>
     <% end %>
 </div>
