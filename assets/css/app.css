@@ -3,6 +3,7 @@ html, body {
     margin: 0;
     background-color: #EEEEEE;
     overflow: hidden;
+    color: #333333;
 }
 
 div.slide {
@@ -12,7 +13,7 @@ div.slide {
     top: 3%;
     bottom: 3%;
     width: 90%;
-    padding: 5%;
+    padding: 5% 7%;
     left: 5%;
     border-radius: 20px;
     background-color: #fafafa;
@@ -22,18 +23,78 @@ div.slide {
     transition: left 500ms ease-in-out;
 }
 
-div.slide.right{
+div.slide.right {
     margin: 0;
     left: 96%;
 }
-div.slide.righter{
+
+div.slide.righter {
     left: 200%;
 }
 
-div.slide.left{
+div.slide.left {
     margin: 0;
     left: -86%
 }
-div.slide.lefter{
+
+div.slide.lefter {
     left: -200%
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif;
+    margin: 1rem 0;
+}
+
+h1, h2, h3 {
+    font-weight: bold;
+}
+
+h4, h5, h6 {
+    font-weight: 600;
+}
+
+code, pre {
+    font-family: 'Roboto Mono', monospace;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1rem;
+}
+
+h6 {
+    font-size: 1.5rem;
+}
+
+blockquote{
+    border-left: 5px solid lightgray;
+    color: #555555;
+    padding-left: 1rem;
+    margin-left: 0;
+    font-style: italic;
+}
+
+p, blockquote, li{
+    font-size: .9rem;
 }
