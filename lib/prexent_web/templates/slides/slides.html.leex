@@ -5,8 +5,8 @@
         <%= if i == @slide + 1 , do: "right" %>
         <%= if i < @slide - 1, do: "lefter" %>
         <%= if i > @slide + 1, do: "righter" %>">
-            <%= for content <- slide do %>
-                <%= raw content.content %>
+            <%= for slide_data <- slide do %>
+                <%= raw parse_slide(slide_data) %>
             <% end %>
         </div>
     <% end %>

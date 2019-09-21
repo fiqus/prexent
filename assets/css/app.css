@@ -1,6 +1,5 @@
 * {
     font-family: 'Roboto', sans-serif;
-    font-size: 100%;
 }
 
 html, body {
@@ -48,6 +47,11 @@ div.slide.lefter {
     left: -200%
 }
 
+div.error {
+    color: red;
+    font-size: .7rem;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Open Sans', sans-serif;
     margin: 1rem 0;
@@ -89,7 +93,7 @@ h6 {
     font-size: 1.5rem;
 }
 
-blockquote{
+blockquote {
     border-left: 5px solid lightgray;
     color: #555555;
     padding-left: 1rem;
@@ -97,11 +101,11 @@ blockquote{
     font-style: italic;
 }
 
-p, blockquote, li{
+p, blockquote, li {
     font-size: .9rem;
 }
 
-code{
+code {
     display: block;
     font-size: .8rem;
 }

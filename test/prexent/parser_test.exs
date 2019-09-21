@@ -21,10 +21,10 @@ defmodule Prexent.ParserTest do
              [
                %{content: "", type: :html},
                %{content: "<h1>Nice function</h1>\n<p>that really works!</p>\n", type: :html},
-               %{content: "Code file not found: myfun.exs", type: :code},
+               %{content: "Code file not found: myfun.exs", type: :error},
                %{content: "", type: :html},
                %{content: "<p>Another useful function:</p>\n", type: :html},
-               %{content: "Code file not found: afun.exs", type: :code}
+               %{content: "Code file not found: afun.exs", type: :error}
              ]
            ]
   end

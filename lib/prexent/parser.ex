@@ -7,7 +7,7 @@ defmodule Prexent.Parser do
   @typedoc """
   A single slide
   """
-  @type slide() :: [Map.t(type :: (:html | :code | :error), content :: String.t())]
+  @type slide() :: [Map.t(type :: :html | :code | :error, content :: String.t())]
 
   @typedoc """
   The result of the parse.
@@ -38,14 +38,14 @@ defmodule Prexent.Parser do
     regex = ~r/^(---)|(!([\S*]+) ([\S*]+).*)$/m
 
     Regex.split(regex, content, include_captures: true, trim: true)
-    |> Enum.map(& process_chunk(&1))
+    |> Enum.map(&process_chunk(&1))
     |> List.flatten()
     |> split_on("---")
   end
 
   defp split_on(list, on) do
     list
-    |> Enum.reverse
+    |> Enum.reverse()
     |> do_split_on(on, [[]])
     |> Enum.reject(fn list -> list == [] end)
   end
@@ -59,18 +59,18 @@ defmodule Prexent.Parser do
   defp process_chunk("!code " <> argument) do
     path_to_file = path_to_file(argument)
 
-    content =
-      try do
-        file_content = read_file!(path_to_file)
-        "#{file_content}"
-      rescue
-        _ -> "Code file not found: #{path_to_file}"
-      end
+    try do
+      file_content = read_file!(path_to_file)
 
-    %{
-      type: :code,
-      content: content
-    }
+      %{
+        type: :code,
+        content: file_content,
+        lang: "elixir"
+      }
+    rescue
+      _ ->
+        process_error("Code file not found: #{path_to_file}")
+    end
   end
 
   defp process_chunk("!include " <> argument) do
@@ -81,10 +81,7 @@ defmodule Prexent.Parser do
       |> parse_content()
     rescue
       _ ->
-        %{
-          type: :error,
-          content: "Included file not found: #{path_to_file}"
-        }
+        process_error("Included file not found: #{path_to_file}")
     end
   end
 
@@ -97,12 +94,15 @@ defmodule Prexent.Parser do
         }
 
       {:error, _html_doc, error_messages} ->
-        %{
-          type: :error,
-          content: error_messages
-        }
+        process_error(error_messages)
     end
   end
+
+  defp process_error(content),
+    do: %{
+      type: :error,
+      content: content
+    }
 
   defp path_to_file(input) do
     input
