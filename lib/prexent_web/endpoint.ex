@@ -5,6 +5,8 @@ defmodule PrexentWeb.Endpoint do
     websocket: true,
     longpoll: false
 
+  socket "/live", Phoenix.LiveView.Socket
+  
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
@@ -24,7 +26,7 @@ defmodule PrexentWeb.Endpoint do
   end
 
   plug Plug.RequestId
-  plug Plug.Logger
+  plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
@@ -40,7 +42,7 @@ defmodule PrexentWeb.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_prexent_key",
-    signing_salt: "hGBr5tf6"
+    signing_salt: "D9hrs/nW"
 
   plug PrexentWeb.Router
 end
