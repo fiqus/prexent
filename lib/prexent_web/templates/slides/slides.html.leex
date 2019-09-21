@@ -5,7 +5,9 @@
         <%= if i == @slide + 1 , do: "right" %>
         <%= if i < @slide - 1, do: "lefter" %>
         <%= if i > @slide + 1, do: "righter" %>">
-            <%= raw slide %>
+            <%= for content <- slide do %>
+                <%= raw content.content %>
+            <% end %>
         </div>
     <% end %>
 </div>

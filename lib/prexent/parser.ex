@@ -4,6 +4,17 @@ defmodule Prexent.Parser do
   """
   require Logger
 
+  @typedoc """
+  A single slide
+  """
+  @type slide() :: [Map.t(type :: (:html | :code | :error), content :: String.t())]
+
+  @typedoc """
+  The result of the parse.
+  This type will return a list of slides()
+  """
+  @type parse_result() :: [slide()]
+
   @doc """
   Parses slides of the markdown to a list of HTML.
   If exists any parse error, the item in the list will be the error message.
@@ -13,79 +24,95 @@ defmodule Prexent.Parser do
   * `!include <file>` - with a markdown file to include in any place
   * `!code <file>` - will parse a code script
   """
-  @spec to_html_list(String.t()) :: List.t()
-  def to_html_list(path_to_file) do
+  @spec to_parsed_list(String.t()) :: parse_result()
+  def to_parsed_list(path_to_file) do
     try do
       read_file!(path_to_file)
       |> parse_content()
-      # Quizá splittear antes y parsear de a chunks?
-      |> String.split("---")
-    catch
-      :enoent -> ["# Markdown file not found!\n#{path_to_file}"]
-      reason -> ["# Markdown file read failed!\n## Reason '#{inspect(reason)}'\n#{path_to_file}"]
+    rescue
+      e in File.Error -> [e.message()]
     end
-    |> Enum.map(fn slide ->
-      case Earmark.as_html(slide) do
-        {:ok, html_doc, _} ->
-          html_doc
-
-        {:error, _html_doc, error_messages} ->
-          error_messages
-      end
-    end)
   end
 
   defp parse_content(content) do
-    regex = ~r/^!([\S*]+) ([\S*]+).*$/m
+    regex = ~r/^(---)|(!([\S*]+) ([\S*]+).*)$/m
 
-    Regex.scan(regex, content)
-    |> Enum.reduce(
-      content,
-      fn [line, command, argument], acc ->
-        case process_command(command, argument) do
-          {:replace, parsed} -> String.replace(acc, line, parsed)
-          _ -> acc
-        end
-      end
-    )
+    Regex.split(regex, content, include_captures: true, trim: true)
+    |> Enum.map(& process_chunk(&1))
+    |> List.flatten()
+    |> split_on("---")
   end
 
-  defp process_command("code", path_to_file) do
+  defp split_on(list, on) do
+    list
+    |> Enum.reverse
+    |> do_split_on(on, [[]])
+    |> Enum.reject(fn list -> list == [] end)
+  end
+
+  defp do_split_on([], _, acc), do: acc
+  defp do_split_on([h | t], h, acc), do: do_split_on(t, h, [[] | acc])
+  defp do_split_on([h | t], on, [h2 | t2]), do: do_split_on(t, on, [[h | h2] | t2])
+
+  defp process_chunk("---"), do: "---"
+
+  defp process_chunk("!code " <> argument) do
+    path_to_file = path_to_file(argument)
+
     content =
       try do
         file_content = read_file!(path_to_file)
-        "```\n#{file_content}\n```"
-      catch
+        "#{file_content}"
+      rescue
         _ -> "Code file not found: #{path_to_file}"
       end
 
-    {:replace, content}
+    %{
+      type: :code,
+      content: content
+    }
   end
 
-  defp process_command("include", path_to_file) do
-    content =
-      try do
-        read_file!(path_to_file)
-        |> parse_content()
-      catch
-        _ -> "Included file not found: #{path_to_file}"
-      end
+  defp process_chunk("!include " <> argument) do
+    path_to_file = path_to_file(argument)
 
-    {:replace, content}
+    try do
+      read_file!(path_to_file)
+      |> parse_content()
+    rescue
+      _ ->
+        %{
+          type: :error,
+          content: "Included file not found: #{path_to_file}"
+        }
+    end
   end
 
-  defp process_command(_, _), do: nil
+  defp process_chunk(chunk) do
+    case Earmark.as_html(chunk) do
+      {:ok, html_doc, _} ->
+        %{
+          type: :html,
+          content: html_doc
+        }
+
+      {:error, _html_doc, error_messages} ->
+        %{
+          type: :error,
+          content: error_messages
+        }
+    end
+  end
+
+  defp path_to_file(input) do
+    input
+    |> String.trim()
+    |> String.split(" ")
+    |> Enum.take(1)
+  end
 
   defp read_file!(path_to_file) do
     abspath = Path.absname(path_to_file)
-
-    case File.read(abspath) do
-      {:ok, content} ->
-        content
-
-      {:error, reason} ->
-        Logger.error("Couldn't read file with reason '#{inspect(reason)}'\n#{abspath}")
-        throw(reason)
-    end
+    File.read!(abspath)
   end
 end

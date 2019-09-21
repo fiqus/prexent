@@ -8,7 +8,7 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def mount(_, socket) do
-    slides = Prexent.Parser.to_html_list("demo_files/demo1.md")
+    slides = Prexent.Parser.to_parsed_list("demo_files/demo1.md")
     {:ok, assign(socket, slides: slides, slide: 0)}
   end
 
