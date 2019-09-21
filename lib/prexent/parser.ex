@@ -25,26 +25,40 @@ defmodule Prexent.Parser do
         Logger.error("The markdown file couldn't be read, reason: #{inspect(reason)}")
         []
     end
-    |> Enum.map(fn slide ->
-       case Earmark.as_html(slide) do
-        {:ok, html_doc, _} ->
-          html_doc
+    |> Enum.map(
+         fn slide ->
+           case Earmark.as_html(slide) do
+             {:ok, html_doc, _} ->
+               html_doc
 
-        {:error, _html_doc, error_messages} ->
-          error_messages
-       end
-    end)
+             {:error, _html_doc, error_messages} ->
+               error_messages
+           end
+         end
+       )
   end
 
   defp parse_content(content) do
     regex = ~r/^!([\S*]+) ([\S*]+).*$/m
     Regex.scan(regex, content)
-    |> Enum.reduce(content, fn [line, command, argument], acc ->
-      process_command(acc, line, command, argument)
-    end)
+    |> Enum.reduce(
+         content,
+         fn [line, command, argument], acc ->
+           process_command(acc, line, command, argument)
+         end
+       )
   end
 
-  defp process_command(content, line, "code", argument), do: content
+  defp process_command(content, line, "code", argument) do
+    case File.read(Path.absname(argument)) do
+      {:ok, file_content} ->
+        IO.inspect(file_content)
+        String.replace(content, line, "```\n#{file_content}\n```")
+      {:error, reason} ->
+        Logger.error("The markdown file couldn't be read, reason: #{inspect(reason)}")
+        String.replace(content, line, "")
+    end
+  end
 
   defp process_command(content, line, "include", argument) do
     case File.read(Path.absname(argument)) do
