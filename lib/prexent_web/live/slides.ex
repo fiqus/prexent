@@ -9,7 +9,8 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def mount(_ , socket) do
-    {:ok, assign(socket, slides: ["test slide 1", "test slide 2", "test slide 3"], slide: 0)}
+    slides = Prexent.Parser.to_html_list(Path.absname("test/prexent/input.md"))
+    {:ok, assign(socket, slides: slides, slide: 0)}
   end
 
   def handle_event("keyup", %{"key" => "ArrowLeft"}, socket) do
