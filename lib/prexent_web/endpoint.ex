@@ -1,9 +1,9 @@
 defmodule PrexentWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :prexent
 
-  socket "/socket", PrexentWeb.UserSocket,
-    websocket: true,
-    longpoll: false
+  # socket "/socket", PrexentWeb.UserSocket,
+  #   websocket: true,
+  #   longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket
 
