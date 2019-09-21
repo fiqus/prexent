@@ -34,3 +34,6 @@ npm-debug.log
 /priv/static/
 
 .elixir_ls
+
+*.iml
+.idea
