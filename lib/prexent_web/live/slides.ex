@@ -30,11 +30,21 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_event("run", %{"slide_idx" => slide_idx}, socket) do
-    {:noreply, assign(socket, :code_runners, Map.put(socket.assigns.code_runners, parse_slide_num(slide_idx), "test"))}
+    {:noreply,
+     assign(
+       socket,
+       :code_runners,
+       Map.put(socket.assigns.code_runners, parse_slide_num(slide_idx), "test")
+     )}
   end
 
   def handle_event("close", %{"slide_idx" => slide_idx}, socket) do
-    {:noreply, assign(socket, :code_runners, Map.delete(socket.assigns.code_runners, parse_slide_num(slide_idx)))}
+    {:noreply,
+     assign(
+       socket,
+       :code_runners,
+       Map.delete(socket.assigns.code_runners, parse_slide_num(slide_idx))
+     )}
   end
 
   def handle_event(_ev, _data, socket) do

@@ -4,7 +4,9 @@ defmodule PrexentWeb.SlidesView do
   def parse_slide(slide_idx, content_idx, %{type: :code, lang: lang, content: content}) do
     "<div class='code'>
       <pre><code class='#{lang}'>#{content}</code></pre>
-      <button phx-click='run' phx-value-slide_idx='#{slide_idx}' phx-value-content_idx='#{content_idx}'>Run</button>
+      <button phx-click='run' phx-value-slide_idx='#{slide_idx}' phx-value-content_idx='#{
+      content_idx
+    }'>Run</button>
     </div>"
   end
 
@@ -12,7 +14,15 @@ defmodule PrexentWeb.SlidesView do
     "<div class=\"error\">#{content}</div>"
   end
 
-  def parse_slide(_slide_idx, _content_idx, %{content: content}) do
+  def parse_slide(_, _, %{type: :html, content: content}) do
     content
+  end
+
+  def parse_slide(_slide_idx, _content_idx, _) do
+    ""
+  end
+
+  def get_background(slide) do
+    Enum.find(slide, %{content: ""}, fn x -> Map.get(x, :type) == :background end).content
   end
 end

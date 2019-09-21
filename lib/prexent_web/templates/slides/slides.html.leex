@@ -4,7 +4,7 @@
         <%= if slide_idx == @slide - 1 , do: "left" %>
         <%= if slide_idx == @slide + 1 , do: "right" %>
         <%= if slide_idx < @slide - 1, do: "lefter" %>
-        <%= if slide_idx > @slide + 1, do: "righter" %>">
+        <%= if slide_idx > @slide + 1, do: "righter" %>" style="background-image: url(<%= get_background(slide)%>)">
             <%= for {slide_data, content_idx} <- Enum.with_index(slide) do %>
                 <%= raw parse_slide(slide_idx, content_idx, slide_data) %>
             <% end %>

@@ -54,6 +54,19 @@ defmodule Prexent.Parser do
   defp do_split_on([h | t], h, acc), do: do_split_on(t, h, [[] | acc])
   defp do_split_on([h | t], on, [h2 | t2]), do: do_split_on(t, on, [[h | h2] | t2])
 
+  defp process_chunk("!background" <> argument) do
+    path_to_file = path_to_file(argument)
+
+    try do
+      %{
+        type: :background,
+        content: path_to_file
+      }
+    rescue
+      _ -> process_error("Included file not found: #{path_to_file}")
+    end
+  end
+
   defp process_chunk("---"), do: "---"
 
   defp process_chunk("!code " <> argument) do
