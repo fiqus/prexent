@@ -17,7 +17,7 @@ defmodule PrexentWeb.Router do
   scope "/", PrexentWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", SlidesLive
   end
 
   # Other scopes may use custom stacks.

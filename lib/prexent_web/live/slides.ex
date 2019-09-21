@@ -1,11 +1,10 @@
 defmodule PrexentWeb.SlidesLive do
   @moduledoc false
 
-  use Phoenix.LiveView
-  use Phoenix.HTML
+  use PrexentWeb, :live_view
 
   def render(assigns) do
-    Phoenix.View.render(PrexentWeb.PageView, "slides.html", assigns)
+    PrexentWeb.SlidesView.render("slides.html", assigns)
   end
 
   def mount(_ , socket) do

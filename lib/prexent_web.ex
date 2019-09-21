@@ -47,6 +47,18 @@ defmodule PrexentWeb do
     end
   end
 
+  def live_view do
+    quote do
+      use Phoenix.LiveView
+
+      require Logger
+
+      import PrexentWeb.ErrorHelpers
+      import PrexentWeb.Gettext
+      alias PrexentWeb.Router.Helpers, as: Routes
+    end
+  end
+
   def router do
     quote do
       use Phoenix.Router
