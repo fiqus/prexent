@@ -1,16 +1,15 @@
 defmodule PrexentWeb.SlidesLive do
   @moduledoc false
+
   use Phoenix.LiveView
   use Phoenix.HTML
-
-  @left_key 38
 
   def render(assigns) do
     Phoenix.View.render(PrexentWeb.PageView, "slides.html", assigns)
   end
 
   def mount(_ , socket) do
-    {:ok, assign(socket, slides: ["test slide 1", "test slide 2", "test slide 3"], slide: 1)}
+    {:ok, assign(socket, slides: ["test slide 1", "test slide 2", "test slide 3"], slide: 0)}
   end
 
   def handle_event("keyup", %{"key" => "ArrowLeft"}, socket) do
