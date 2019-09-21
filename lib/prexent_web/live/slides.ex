@@ -16,11 +16,12 @@ defmodule PrexentWeb.SlidesLive do
     {:noreply, assign(socket, :slide, max(socket.assigns.slide - 1, 0))}
   end
 
-  def handle_event("keyup", %{"key" => "ArrowRight"}, socket) do
+  def handle_event("keyup", %{"key" => key}, socket) when key in ["ArrowRight", " "] do
     {:noreply, assign(socket, :slide, min(socket.assigns.slide + 1, length(socket.assigns.slides) - 1))}
   end
 
-  def handle_event("keyup", _, socket) do
+  def handle_event("keyup", k, socket) do
+    IO.inspect(k)
     {:noreply, socket}
   end
 end

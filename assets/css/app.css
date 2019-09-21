@@ -11,25 +11,29 @@ div.slide {
     position: absolute;
     top: 3%;
     bottom: 3%;
-    width: 94%;
-    margin: 0 3%;
+    width: 90%;
     padding: 5%;
-    left: 0;
-    right: 0;
+    left: 5%;
     border-radius: 20px;
     background-color: #fafafa;
 
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
-    transition: left 400ms ,right 400ms;
+    transition: left 500ms ease-in-out;
 }
 
-div.slide.right {
+div.slide.right{
+    margin: 0;
     left: 96%;
-    right: -96%
+}
+div.slide.righter{
+    left: 200%;
 }
 
-div.slide.left {
-    right: 96%;
-    left: -96%
+div.slide.left{
+    margin: 0;
+    left: -86%
+}
+div.slide.lefter{
+    left: -200%
 }
