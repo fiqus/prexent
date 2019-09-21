@@ -52,9 +52,7 @@ config :prexent, PrexentWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/prexent_web/{live,views}/.*(ex)$",
-      ~r"lib/prexent_web/templates/.*(eex)$",
-      # TODO Improve this!
-      ~r{demo_files/.*$}
+      ~r"lib/prexent_web/templates/.*(eex)$"
     ]
   ]
 

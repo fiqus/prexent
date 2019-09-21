@@ -1,16 +1,16 @@
 <div id="slide_container" phx-keyup="keyup" phx-target="window">
-    <%= for {slide, i} <- Enum.with_index(@slides) do %>
+    <%= for {slide, slide_idx} <- Enum.with_index(@slides) do %>
         <div class="slide
-        <%= if i == @slide - 1 , do: "left" %>
-        <%= if i == @slide + 1 , do: "right" %>
-        <%= if i < @slide - 1, do: "lefter" %>
-        <%= if i > @slide + 1, do: "righter" %>">
-            <%= for slide_data <- slide do %>
-                <%= raw parse_slide(i, slide_data) %>
+        <%= if slide_idx == @slide - 1 , do: "left" %>
+        <%= if slide_idx == @slide + 1 , do: "right" %>
+        <%= if slide_idx < @slide - 1, do: "lefter" %>
+        <%= if slide_idx > @slide + 1, do: "righter" %>">
+            <%= for {slide_data, content_idx} <- Enum.with_index(slide) do %>
+                <%= raw parse_slide(slide_idx, content_idx, slide_data) %>
             <% end %>
             <div class='code-output-container <%= if Map.get(@code_runners, @slide) != nil, do: "running" %>'>
                 <div class='code-output'>
-                    <button phx-click='close' phx-value-id='<%= i %>'>Close</button>
+                    <button phx-click='close' phx-value-slide_idx='<%= slide_idx %>'>Close</button>
                 </div>
             </div>
         </div>
