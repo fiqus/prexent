@@ -264,3 +264,32 @@ table tbody td {
     color: #333;
     padding: .3rem 1rem;
 }
+
+.presenter .slide, .presenter div.slide.left, .presenter div.slide.right{
+    top: 0;
+    left: 0;
+    right: 0;
+    down: 0;
+    width:100%;
+    height: 100%;
+}
+
+.presenter div.slide.lefter, presenter div.slide.righter{
+    display:none;
+}
+
+.presenter .slide{
+    transform: scale(.6) translateY(-15%);
+    z-index: 2;
+    transition: transform 300ms ease-in-out;
+}
+
+.presenter .slide.left{
+    transform: scale(.25) translate(-140%, -55%);
+    z-index: 1;
+}
+
+.presenter .slide.right{
+    transform: scale(.25) translate(140%, -55%);
+    z-index: 1;
+}

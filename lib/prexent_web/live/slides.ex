@@ -3,7 +3,11 @@ defmodule PrexentWeb.SlidesLive do
   use PrexentWeb, :live_view
 
   def render(assigns) do
-    PrexentWeb.SlidesView.render("slides.html", assigns)
+    if Map.get(assigns, :presenter, false) do
+      PrexentWeb.SlidesView.render("slides_presenter.html", assigns)
+    else
+      PrexentWeb.SlidesView.render("slides.html", assigns)
+    end
   end
 
   def mount(_params, socket) do
