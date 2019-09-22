@@ -143,15 +143,16 @@ defmodule Mix.Tasks.Prexent.New do
 
     Mix.shell.info mix_step
 
-    print_mix_run_info()
+    print_mix_run_info(path)
   end
 
-  defp print_mix_run_info() do
+  defp print_mix_run_info(path) do
     Mix.shell.info """
-    Start your Prexent with:
+    Start your prexent with:
+        $ cd #{path}
         $ mix prexent
     You can specify the source markdown file if you change the default:
-        $ mix present SOURCE_FILE_PATH
+        $ mix prexent SOURCE_FILE_PATH
     """
   end
 end
