@@ -6,17 +6,21 @@ defmodule Prexent.ParserTest do
 
     assert html_list == [
              [
-               %{content: "test/prexent/background.jpg", type: :background},
+               %{content: "test/prexent/background.jpg", type: :global_background},
                %{type: :html, content: ""},
                %{content: "Header", type: :header},
                %{content: "", type: :html},
                %{content: "Footer", type: :footer},
+               %{content: "", type: :html},
+               %{content: "wrong command !badcomm This command is wrong!", type: :error},
                %{
                  content: "<h1>Title</h1>\n<ul>\n<li>Point 1\n</li>\n<li>Point 2\n</li>\n</ul>\n",
                  type: :html
                }
              ],
              [
+              %{type: :html, content: ""},
+              %{content: "test/prexent/background.jpg", type: :slide_background},
                %{
                  content:
                    "<h2>Second slide</h2>\n<blockquote><p>Best quote ever.</p>\n</blockquote>\n<p>Note: speaker notes FTW!</p>\n",
