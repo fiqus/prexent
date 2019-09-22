@@ -9,7 +9,7 @@ defmodule Mix.Tasks.Prexent do
 
     Application.put_env(:phoenix, :serve_endpoints, true, persistent: true)
 
-    #maybe_put_port(args)
+    # maybe_put_port(args)
     Mix.Tasks.Run.run(run_args())
   end
 
