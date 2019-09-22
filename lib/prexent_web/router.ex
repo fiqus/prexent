@@ -19,6 +19,8 @@ defmodule PrexentWeb.Router do
     pipe_through :browser
 
     live "/", SlidesLive
+    # the order is important!
+    live "/presenter/:slide", SlidesLive
     live "/:slide", SlidesLive
   end
 
