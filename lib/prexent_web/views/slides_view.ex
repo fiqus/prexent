@@ -5,9 +5,7 @@ defmodule PrexentWeb.SlidesView do
     ~s(<div class="code">
       <pre phx-click="edit" phx-value-slide_idx="#{slide_idx}" phx-value-content_idx="#{
       content_idx
-    }">
-        <code class="#{lang}">#{content}</code>
-      </pre>
+    }"><code class="#{lang}">#{content}</code></pre>
       <button phx-click="run" phx-value-slide_idx="#{slide_idx}" phx-value-content_idx="#{
       content_idx
     }">Run</button>
