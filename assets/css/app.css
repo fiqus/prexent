@@ -144,3 +144,11 @@ code {
 .code-output-container.running{
     top: 40%;
 }
+
+.code-output p{
+    font-size: .8rem;
+    color: #CCCCCC;
+    margin: 0;
+    padding: 1em;
+    white-space: pre-wrap;
+}

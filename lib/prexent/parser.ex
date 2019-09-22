@@ -78,6 +78,7 @@ defmodule Prexent.Parser do
       %{
         type: :code,
         content: file_content,
+        filename: path_to_file,
         lang: "elixir"
       }
     rescue
@@ -121,7 +122,7 @@ defmodule Prexent.Parser do
     input
     |> String.trim()
     |> String.split(" ")
-    |> Enum.take(1)
+    |> Enum.at(0)
   end
 
   defp read_file!(path_to_file) do

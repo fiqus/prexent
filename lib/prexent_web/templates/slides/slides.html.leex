@@ -10,6 +10,9 @@
             <% end %>
             <div class='code-output-container <%= if Map.get(@code_runners, @slide) != nil, do: "running" %>'>
                 <div class='code-output'>
+                    <p>
+                        <%= raw Map.get(@code_runners, @slide) %>
+                    </p>
                     <button phx-click='close' phx-value-slide_idx='<%= slide_idx %>'>Close</button>
                 </div>
             </div>

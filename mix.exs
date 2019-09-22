@@ -19,7 +19,7 @@ defmodule Prexent.MixProject do
   def application do
     [
       mod: {Prexent.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :porcelain]
     ]
   end
 
@@ -40,7 +40,8 @@ defmodule Prexent.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:phoenix_live_view, "~> 0.3.0"},
-      {:earmark, "~> 1.4"}
+      {:earmark, "~> 1.4"},
+      {:porcelain, "~> 2.0"}
     ]
   end
 end
