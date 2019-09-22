@@ -6,20 +6,25 @@ defmodule PrexentWeb.SlidesLive do
     PrexentWeb.SlidesView.render("slides.html", assigns)
   end
 
-  def mount(_, socket) do
+  def mount(_params, socket) do
     Phoenix.PubSub.subscribe(Prexent.PubSub, "slide")
     source_md = Application.get_env(:prexent, :source_md) || "demo_files/demo1.md"
     slides = Prexent.Parser.to_parsed_list(source_md)
+
     {:ok, assign(socket, slides: slides, slide: 0, code_runners: %{}, pid_slides: %{})}
   end
 
-  def handle_params(%{"slide" => slide}, uri, socket) do
-    IO.inspect uri
+  def handle_params(%{"slide" => slide}, _uri, socket) do
     num = parse_slide_num(socket, slide)
     {:noreply, assign(socket, slide: num)}
   end
 
-  def handle_params(_params, _uri, socket) do
+  def handle_params(%{"pslide" => slide}, uri, socket) do
+    handle_params(%{"slide" => slide}, uri, socket |> assign(:presenter, true))
+  end
+
+  def handle_params(params, uri, socket) do
+    Logger.warn("Unhandled params at #{inspect(uri)} with: #{inspect(params)}")
     {:noreply, socket}
   end
 
@@ -175,13 +180,12 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_info({:slide_change, num}, socket) do
-    {
-      :noreply,
-      live_redirect(
-        socket,
-        to: Routes.live_path(socket, __MODULE__, num)
-      )
-    }
+    baseurl =
+      if Map.get(socket.assigns, :presenter, false),
+        do: "/presenter",
+        else: ""
+
+    {:noreply, live_redirect(socket, to: "#{baseurl}/#{num}")}
   end
 
   def handle_info(data, socket) do
@@ -218,23 +222,15 @@ defmodule PrexentWeb.SlidesLive do
   defp handle_slide_change(%{assigns: assigns} = socket, slide) do
     num = parse_slide_num(socket, slide)
 
-    Phoenix.PubSub.broadcast_from(Prexent.PubSub, self(), "slide", {:slide_change, num})
-    
     is_editing? =
       Enum.at(assigns.slides, assigns.slide)
       |> Enum.find(&(&1.type == :edit)) != nil
 
     if !is_editing? and socket.assigns.slide != num do
-      {
-        :noreply,
-        live_redirect(
-          socket,
-          to: Routes.live_path(socket, __MODULE__, num)
-        )
-      }
-    else
-      {:noreply, socket}
+      Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:slide_change, num})
     end
+
+    {:noreply, socket}
   end
 
   defp valid_slide?(

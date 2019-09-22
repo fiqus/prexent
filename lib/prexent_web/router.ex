@@ -20,7 +20,7 @@ defmodule PrexentWeb.Router do
 
     live "/", SlidesLive
     # the order is important!
-    live "/presenter/:slide", SlidesLive
+    live "/presenter/:pslide", SlidesLive
     live "/:slide", SlidesLive
   end
 

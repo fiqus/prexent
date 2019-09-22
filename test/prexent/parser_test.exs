@@ -18,7 +18,7 @@ defmodule Prexent.ParserTest do
                  type: :html
                },
                %{content: "this is my comment", type: :comment},
-               %{content: "", type: :html},
+               %{content: "", type: :html}
              ],
              [
                %{type: :html, content: ""},
