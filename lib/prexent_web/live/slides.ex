@@ -63,12 +63,17 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_event("close", %{"slide_idx" => slide_idx}, socket) do
+    slide_num = parse_slide_num(slide_idx)
+    slide_pid = socket.assigns.pid_slides
+                |> Enum.find(fn {_, val} -> val == slide_num end)
+    if slide_pid != nil, do: Exexec.stop(elem(slide_pid, 0))
+
     {
       :noreply,
       assign(
         socket,
-        :code_runners,
-        Map.delete(socket.assigns.code_runners, parse_slide_num(slide_idx))
+        code_runners: Map.delete(socket.assigns.code_runners, slide_num),
+        pid_slides: Map.delete(socket.assigns.pid_slides, slide_pid)
       )
     }
   end
@@ -76,7 +81,7 @@ defmodule PrexentWeb.SlidesLive do
   def handle_event("stop", %{"slide_idx" => slide_idx}, socket) do
     slide_num = parse_slide_num(slide_idx)
     slide_pid = socket.assigns.pid_slides
-      |> Enum.find(fn {key, val} -> val == parse_slide_num(slide_num) end)
+                |> Enum.find(fn {_, val} -> val == slide_num end)
     if slide_pid != nil, do: Exexec.stop(elem(slide_pid, 0))
     {:noreply, socket}
   end
@@ -106,19 +111,22 @@ defmodule PrexentWeb.SlidesLive do
     str = "<span class='#{class}'>#{data}</span>"
 
     slide_idx = Map.get(socket.assigns.pid_slides, id)
-
-    {
-      :noreply,
-      assign(
-        socket,
-        :code_runners,
-        Map.put(
-          socket.assigns.code_runners,
-          slide_idx,
-          Map.get(socket.assigns.code_runners, slide_idx) <> str
+    if slide_idx != nil && Map.get(socket.assigns.code_runners, slide_idx) != nil do
+      {
+        :noreply,
+        assign(
+          socket,
+          :code_runners,
+          Map.put(
+            socket.assigns.code_runners,
+            slide_idx,
+            Map.get(socket.assigns.code_runners, slide_idx) <> str
+          )
         )
-      )
-    }
+      }
+      else
+        {:noreply, socket}
+      end
   end
 
   def handle_info({:stdout, id, data}, socket), do: do_output("", id, data, socket)
@@ -129,6 +137,7 @@ defmodule PrexentWeb.SlidesLive do
     socket = assign(socket, :pid_slides, Map.delete(socket.assigns.pid_slides,id))
     {:noreply, socket}
   end
+
   def handle_info({:DOWN, id, _, _, {:exit_status, n}}, socket) do
     {_, socket} = do_output("error", id, "Program exited with status #{n}", socket)
     socket = assign(socket, :pid_slides, Map.delete(socket.assigns.pid_slides,id))
