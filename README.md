@@ -13,7 +13,7 @@ Install the mix archive, create presentations quicky on the fly, edit markdown, 
 
 ## Pre-requisites
   * `Elixir` 1.7 or later
-  * `Erlang/OTP` 18 or later
+  * `Erlang/OTP` 21 or later
 
 ## Create a presentation
 Install the mix archive installer from Hex:
