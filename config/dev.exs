@@ -45,18 +45,6 @@ config :prexent, PrexentWeb.Endpoint,
 # configured to run both http and https servers on
 # different ports.
 
-# Watch static and templates for browser reloading.
-config :prexent, PrexentWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/prexent_web/{live,views}/.*(ex)$",
-      ~r"lib/prexent_web/templates/.*(eex)$",
-      ~r"demo_files/.*$"
-    ]
-  ]
-
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 

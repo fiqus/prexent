@@ -19,8 +19,13 @@ config :prexent, PrexentWeb.Endpoint,
   ],
   live_reload: [
     patterns: [
-      ~r"code/.*$",
-      ~r"slides.md$"
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/gettext/.*(po)$",
+      ~r"lib/prexent_web/{live,views}/.*(ex)$",
+      ~r"lib/prexent_web/templates/.*(eex)$",
+      ~r"demo_files/.*$",
+      ~r"\.md$",
+      ~r"code/.*$"
     ]
   ]
 
