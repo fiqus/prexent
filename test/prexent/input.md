@@ -8,6 +8,8 @@
 * Point 1
 * Point 2
 
+!comment this is my comment
+
 ---
 !slide_background test/prexent/background.jpg
 

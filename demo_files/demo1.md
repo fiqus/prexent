@@ -10,11 +10,15 @@
 
 !code demo_files/code1.exs
 
+!comment this is the first slide
+
 ---
 
 ### Testing python code
 
 !code demo_files/code.py python python3
+
+!comment commenting slide 2 for the presenter view
 
 ---
 

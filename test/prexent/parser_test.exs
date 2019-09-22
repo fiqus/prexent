@@ -16,7 +16,9 @@ defmodule Prexent.ParserTest do
                %{
                  content: "<h1>Title</h1>\n<ul>\n<li>Point 1\n</li>\n<li>Point 2\n</li>\n</ul>\n",
                  type: :html
-               }
+               },
+               %{content: "this is my comment", type: :comment},
+               %{content: "", type: :html},
              ],
              [
                %{type: :html, content: ""},
