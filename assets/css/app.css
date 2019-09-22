@@ -173,7 +173,7 @@ code {
     color: #11CC11;
 }
 
-.hljs{
+code.hljs{
     padding: .9em;
     border-radius: 10px;
 }
