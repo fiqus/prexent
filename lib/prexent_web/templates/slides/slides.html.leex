@@ -3,7 +3,7 @@
         <link rel="stylesheet" href="<%= css %>"/>
     <% end %>
     <%= for {slide, slide_idx} <- Enum.with_index(@slides) do %>
-        <div class="slide <%= Enum.join(get_slide_classes(slide), " ") %>
+        <div phx-click="forward_backward" phx-value-clicked="<%= slide_idx %>" class="slide <%= Enum.join(get_slide_classes(slide), " ") %>
         <%= if slide_idx == @slide - 1 , do: "left" %>
         <%= if slide_idx == @slide + 1 , do: "right" %>
         <%= if slide_idx < @slide - 1, do: "lefter" %>
