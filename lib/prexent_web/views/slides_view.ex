@@ -18,11 +18,10 @@ defmodule PrexentWeb.SlidesView do
     onclick = "onCodeApply(this)"
 
     ~s(<div class="code">
-      <pre><code class="nohighlight" contenteditable="true" #{phx_values_idx} onchange="onCodeChange">#{
-      content
-    }</code></pre>
+      <pre><code class="nohighlight" contenteditable="true">#{content}</code></pre>
       <div class="buttons">
         <button phx-click="cancel" #{phx_values_idx}>Cancel</button>
+        <button phx-click="apply" #{phx_values_idx} class="hidden">Apply</button>
         <button onclick="#{onclick}">Apply</button>
       </div>
     </div>)

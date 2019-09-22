@@ -42,6 +42,9 @@ Array.from(document.getElementsByTagName("body")).forEach((body) => {
   observer.observe(body, {attributes: true, childList: true, subtree: true});
 });
 
-window.onCodeApply = (btn) => {
-  console.log(btn);
+window.onCodeApply = (elem) => {
+  const button = elem.parentNode.childNodes[3];
+  const code = elem.parentNode.parentNode.childNodes[1].childNodes[0];
+  button.setAttribute("phx-value-code", code.innerText);
+  elem.parentNode.childNodes[3].click();
 };
