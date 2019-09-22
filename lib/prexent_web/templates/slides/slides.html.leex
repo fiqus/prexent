@@ -3,16 +3,14 @@
         <link rel="stylesheet" href="<%= css %>"/>
     <% end %>
     <%= for {slide, slide_idx} <- Enum.with_index(@slides) do %>
-        <div class="slide
+        <div class="slide <%= Enum.join(get_slide_classes(slide), " ") %>
         <%= if slide_idx == @slide - 1 , do: "left" %>
         <%= if slide_idx == @slide + 1 , do: "right" %>
         <%= if slide_idx < @slide - 1, do: "lefter" %>
         <%= if slide_idx > @slide + 1, do: "righter" %>" 
            style="
-                background-image: url(<%= get_background(hd(@slides))%>);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
+                <%= if get_global_background(hd(@slides)) != "", do: "background-image: url(#{get_global_background(hd(@slides))});" %>
+                <%= if get_slide_background(slide) != "", do: "background-image: url(#{get_slide_background(slide)});" %>
                 ">
            <div class="header right">
               <span><%= get_header(hd(@slides)) %></span>

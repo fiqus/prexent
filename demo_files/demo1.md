@@ -11,6 +11,10 @@
 !code demo_files/code1.exs
 
 ---
+### TESTING BACKGROUND, CSS AND CLASSES:
+!slide_background /demo_files/test2.jpg
+!slide_classes white-text dark-background
+
 !code demo_files/code2.exs
 
 ---
