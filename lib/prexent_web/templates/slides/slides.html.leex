@@ -8,7 +8,7 @@
             <%= for {slide_data, content_idx} <- Enum.with_index(slide) do %>
                 <%= raw parse_slide(slide_idx, content_idx, slide_data) %>
             <% end %>
-            <div class="code-output-container <%= if Map.get(@code_runners, @slide) != nil, do: "running" %>">
+            <div id="code-output-<%= slide_idx %>" class="code-output-container <%= if Map.get(@code_runners, @slide) != nil, do: "running" %>">
                 <div class="code-output">
                     <div class="scroll-wrapper">
                         <p>

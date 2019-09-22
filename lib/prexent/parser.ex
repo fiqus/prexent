@@ -35,7 +35,7 @@ defmodule Prexent.Parser do
   end
 
   defp parse_content(content) do
-    regex = ~r/^(---)|(!([\S*]+) ([\S*]+).*)$/m
+    regex = ~r/(^---$)|(^!([\S*]+) ([\S*]+).*$)/m
 
     Regex.split(regex, content, include_captures: true, trim: true)
     |> Enum.map(&process_chunk(&1))

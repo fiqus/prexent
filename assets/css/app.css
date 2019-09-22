@@ -185,3 +185,21 @@ code.hljs{
 code.hljs>*{
     font-family: 'Roboto Mono', monospace;
 }
+
+table {
+    font-size: 1rem;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 1em 0;
+}
+table thead th {
+    background-color: #DDDDDD;
+    border: solid 2px #CCCCCC;
+    color: #333333;
+    padding: .4rem 1rem;
+}
+table tbody td {
+    border: solid 2px #CCCCCC;
+    color: #333;
+    padding: .3rem 1rem;
+}
