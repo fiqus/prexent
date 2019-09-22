@@ -38,4 +38,10 @@ defmodule PrexentWeb.SlidesView do
   def get_footer(slide) do
     Enum.find(slide, %{content: ""}, fn x -> Map.get(x, :type) == :footer end).content
   end
+
+  def get_custom_css(slide) do
+    slide
+    |> Enum.filter(&(Map.get(&1, :type) == :custom_css))
+    |> Enum.map(&(&1.content))
+  end
 end

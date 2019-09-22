@@ -1,4 +1,7 @@
 <div id="slide_container" phx-keyup="keyup" phx-target="window">
+    <%= for css <- get_custom_css(hd(@slides)) do %>
+        <link rel="stylesheet" href="<%= css %>"/>
+    <% end %>
     <%= for {slide, slide_idx} <- Enum.with_index(@slides) do %>
         <div class="slide
         <%= if slide_idx == @slide - 1 , do: "left" %>

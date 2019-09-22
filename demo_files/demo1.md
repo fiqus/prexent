@@ -1,5 +1,6 @@
 !header Fiqus
 !footer Slider
+!custom_css demo_files/custom.css
 
 ### Testing command code not found:
 !code not/found.exs

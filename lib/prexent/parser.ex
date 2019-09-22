@@ -67,16 +67,23 @@ defmodule Prexent.Parser do
     end
   end
 
-  defp process_chunk("!header" <> argument) do
+  defp process_chunk("!header " <> argument) do
     %{
       type: :header,
       content: argument
     }
   end
 
-  defp process_chunk("!footer" <> argument) do
+  defp process_chunk("!footer " <> argument) do
     %{
       type: :footer,
+      content: argument
+    }
+  end
+
+  defp process_chunk("!custom_css " <> argument) do
+    %{
+      type: :custom_css,
       content: argument
     }
   end
