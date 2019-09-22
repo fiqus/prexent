@@ -12,13 +12,17 @@ defmodule PrexentWeb.SlidesView do
     </div>)
   end
 
-  def parse_slide(slide_idx, content_idx, %{type: :edit, lang: lang, content: content}) do
+  def parse_slide(slide_idx, content_idx, %{type: :edit, content: content}) do
     phx_values_idx = ~s(phx-value-slide_idx="#{slide_idx}" phx-value-content_idx="#{content_idx}")
+    onclick = "onCodeApply(this)"
+
     ~s(<div class="code">
-      <pre><code class="nohighlight" contenteditable="true">#{content}</code></pre>
+      <pre><code class="nohighlight" contenteditable="true" #{phx_values_idx} onchange="onCodeChange">#{
+      content
+    }</code></pre>
       <div class="buttons">
         <button phx-click="cancel" #{phx_values_idx}>Cancel</button>
-        <button phx-click="apply" #{phx_values_idx}>Apply</button>
+        <button onclick="#{onclick}">Apply</button>
       </div>
     </div>)
   end
