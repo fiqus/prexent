@@ -157,6 +157,10 @@ code {
     white-space: pre-wrap;
 }
 
+.code-output p, .code-output span{
+    font-family: 'Roboto Mono', monospace;
+}
+
 .code-output .scroll-wrapper{
     height: 100%;
     overflow-y: auto;
