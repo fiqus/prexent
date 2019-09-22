@@ -46,6 +46,7 @@ defmodule Mix.Tasks.Prexent.New do
     content = """
       # The directory Mix will write compiled artifacts to.
       /_build/
+      /deps/
       """
     File.write!(".gitignore", content)
   end
