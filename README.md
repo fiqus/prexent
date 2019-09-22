@@ -10,14 +10,14 @@ Once you create a prexent, the dependency will be installed on top of Phoenix an
 Install the mix archive, create presentations quicky on the fly, edit markdown, include your code and prexent!
 
 ## Pre-requisites
-  * `Elixir` 1.5 or later
+  * `Elixir` 1.7 or later
   * `Erlang/OTP` 18 or later
   * `Node.js` 10 or later
 
 ## Create a presentation
 Install the mix archive installer from Hex:
 
-    $ mix archive.install hex prexent_new 0.1.0
+    $ mix archive.install hex prexent_new 0.1.1
 
 Or create it from an unreleased version:
 

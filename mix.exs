@@ -27,7 +27,7 @@ defmodule Prexent.MixProject do
         ],
         licenses: ["MIT"],
         links: %{github: @url},
-        files: ~w(lib priv mix.exs README.md)
+        files: ~w(lib priv config mix.exs README.md)
       ],
       source_url: @url,
       docs: docs(),
