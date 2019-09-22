@@ -12,6 +12,17 @@ defmodule PrexentWeb.SlidesView do
     </div>)
   end
 
+  def parse_slide(slide_idx, content_idx, %{type: :edit, lang: lang, content: content}) do
+    phx_values_idx = ~s(phx-value-slide_idx="#{slide_idx}" phx-value-content_idx="#{content_idx}")
+    ~s(<div class="code">
+      <textarea>#{content}</textarea>
+      <div class="buttons">
+        <button phx-click="cancel" #{phx_values_idx}>Cancel</button>
+        <button phx-click="apply" #{phx_values_idx}>Apply</button>
+      </div>
+    </div>)
+  end
+
   def parse_slide(_lide_idx, _content_idx, %{type: :error, content: content}) do
     ~s(<div class="error">#{content}</div>)
   end
