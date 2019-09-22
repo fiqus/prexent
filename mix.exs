@@ -1,11 +1,15 @@
 defmodule Prexent.MixProject do
   use Mix.Project
 
+  @version "0.1.1"
+  @github_path "spawnfest/prexent"
+  @url "https://github.com/#{@github_path}"
+
   def project do
     [
       app: :prexent,
-      version: "0.1.0",
-      elixir: "~> 1.5",
+      version: @version,
+      elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -13,7 +17,22 @@ defmodule Prexent.MixProject do
       aliases: aliases(),
       preferred_cli_env: [
         install: :prod
-      ]
+      ],
+      package: [
+        maintainers: [
+          "Pablo Brudnick",
+          "Diego Calero",
+          "Mariano Lambir",
+          "Joaquín Mansilla"
+        ],
+        licenses: ["MIT"],
+        links: %{github: @url},
+        files: ~w(lib priv config mix.exs README.md)
+      ],
+      source_url: @url,
+      docs: docs(),
+      description:
+        "Fast, live and beautiful presentations from Markdown powered by Phoenix LiveView"
     ]
   end
 
@@ -45,13 +64,20 @@ defmodule Prexent.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:phoenix_live_view, "~> 0.3.0"},
       {:earmark, "~> 1.4"},
-      {:exexec, "~> 0.2"}
+      {:exexec, "~> 0.2"},
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false}
     ]
   end
 
   defp aliases do
     [
       install: ["do archive.build, archive.install"]
+    ]
+  end
+
+  defp docs do
+    [
+      source_url_pattern: "https://github.com/#{@github_path}/blob/v#{@version}/%{path}#L%{line}"
     ]
   end
 end

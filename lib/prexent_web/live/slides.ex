@@ -45,8 +45,13 @@ defmodule PrexentWeb.SlidesLive do
   def handle_event("run", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
     code = get_slide_content(socket, slide_idx, content_idx)
 
+    {:ok, _, id} =
+      Exexec.run(code.runner <> " " <> code.filename,
+        stdout: self(),
+        stderr: self(),
+        monitor: true
+      )
 
-    {:ok, _, id} = Exexec.run(code.runner <> " " <> code.filename, stdout: self(), stderr: self(), monitor: true)
     {
       :noreply,
       assign(
@@ -91,6 +96,7 @@ defmodule PrexentWeb.SlidesLive do
     str = "<span class='#{class}'>#{data}</span>"
 
     slide_idx = Map.get(socket.assigns.pid_slides, id)
+
     {
       :noreply,
       assign(

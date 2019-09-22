@@ -59,6 +59,7 @@ defmodule Prexent.Parser do
   defp process_chunk("!code " <> arguments), do: process_code(String.split(arguments, " "))
 
   defp process_code([fname]), do: process_code([fname, "elixir", "elixir"])
+
   defp process_code([fname, lang, runner]) do
     path_to_file = path_to_file(fname)
 
@@ -81,7 +82,6 @@ defmodule Prexent.Parser do
   defp process_code(parameters) do
     process_error("invalid code parameters #{Enum.join(parameters, ' ')}")
   end
-
 
   defp process_chunk("!include " <> argument) do
     path_to_file = path_to_file(argument)
@@ -121,10 +121,10 @@ defmodule Prexent.Parser do
   end
 
   defp process_error(content),
-       do: %{
-         type: :error,
-         content: content
-       }
+    do: %{
+      type: :error,
+      content: content
+    }
 
   defp path_to_file(input) do
     input

@@ -1,6 +1,7 @@
-!background test/prexent/background.jpg
+!global_background test/prexent/background.jpg
 !header Header
 !footer Footer
+!badcomm This command is wrong!
 # Title
 
 
@@ -8,6 +9,7 @@
 * Point 2
 
 ---
+!slide_background test/prexent/background.jpg
 
 ## Second slide
 

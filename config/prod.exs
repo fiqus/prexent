@@ -10,7 +10,8 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :prexent, PrexentWeb.Endpoint,
-  url: [host: "example.com", port: System.get_env("PORT") || 80],
+  url: [host: "localhost", port: System.get_env("PORT") || 4000],
+  http: [port: System.get_env("PORT") || 4000],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production

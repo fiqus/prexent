@@ -74,7 +74,7 @@ defmodule Mix.Tasks.Prexent.New do
 
         defp deps do
           [
-            {:prexent, git: "https://github.com/spawnfest/prexent.git", branch: "master"}
+            {:prexent, "~> 0.1.1"}
           ]
         end
 

@@ -1,14 +1,14 @@
 defmodule Prexent.New.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.1.1"
   @github_path "spawnfest/prexent"
   @url "https://github.com/#{@github_path}"
 
   def project do
     [
       app: :prexent_new,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.5",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
