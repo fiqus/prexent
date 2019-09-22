@@ -6,10 +6,12 @@
 
 This is the Spawnfest 2019 project by [Fiqus](https://github.com/fiqus) team.
 
-A HTML presentations generator from markdown files with the ability to *run* and *edit* live elixir code (and other languages you have the interpreter for), add comments for the presenter view, images, css, etc.
+A HTML presentations generator from markdown files with the ability to *run* and *edit* live elixir code (and other languages you have the interpreter for).
 Once you create a prexent, the dependency will be installed on top of Phoenix and LiveView, gaining all its powerfull features.
 
 Install the mix archive, create presentations quicky on the fly, edit markdown, include your code and prexent!
+
+This tool is meant to be adopted by the Elixir community as a main presentation utility.
 
 ## Pre-requisites
   * `Elixir` 1.7 or later
@@ -62,7 +64,13 @@ For other languages than elixir you have to specify the language (2nd param) and
 #### Header, footer, css..
     !header Fiqus
     !footer Slider
+
+Add your(s) custom css:
+
     !custom_css custom.css
+
+For custom syntax highlighting, you can see [demos](https://highlightjs.org/static/demo/) of the available schemas.
+You can download any of them [here](https://github.com/highlightjs/highlight.js/tree/master/src/styles) and include them in your markdown file.
 
 #### Background image
 Global background
