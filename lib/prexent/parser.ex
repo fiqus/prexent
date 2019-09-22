@@ -67,27 +67,6 @@ defmodule Prexent.Parser do
     end
   end
 
-  defp process_chunk("!header " <> argument) do
-    %{
-      type: :header,
-      content: argument
-    }
-  end
-
-  defp process_chunk("!footer " <> argument) do
-    %{
-      type: :footer,
-      content: argument
-    }
-  end
-
-  defp process_chunk("!custom_css " <> argument) do
-    %{
-      type: :custom_css,
-      content: argument
-    }
-  end
-
   defp process_chunk("---"), do: "---"
 
   defp process_chunk("!code " <> argument) do
@@ -117,6 +96,14 @@ defmodule Prexent.Parser do
     rescue
       _ ->
         process_error("Included file not found: #{path_to_file}")
+    end
+  end
+
+  defp process_chunk("!" <> rest) do
+    case String.split(rest, " ") do
+      ["header" | args] -> %{ type: :header, content: Enum.at(args, 0) }
+      ["footer" | args] -> %{ type: :footer, content: Enum.at(args, 0) }
+      ["custom_css" | args] -> %{ type: :custom_css, content: Enum.at(args, 0) }
     end
   end
 
