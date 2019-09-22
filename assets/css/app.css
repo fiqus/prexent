@@ -117,11 +117,23 @@ code {
     position: relative;
 }
 
+.code > pre{
+    margin: auto;
+}
+.code > pre > code{
+    padding: .5rem;
+}
+
 .code button, .code-output button{
     border: 1px solid black;
     border-radius: 5px;
     background-color: #d1d1d1;
     font-size: .7rem;
+}
+
+.code textarea {
+    display: block;
+    font-size: .8rem;
 }
 
 .code-output .buttons, .code .buttons{
