@@ -240,8 +240,15 @@ table {
     font-size: 1rem;
     border-collapse: collapse;
     border-spacing: 0;
-    margin: 1em 0;
+    margin: 1em auto;
 }
+
+img{
+    display: block;
+    margin: 0 auto;
+}
+
+
 table thead th {
     background-color: #DDDDDD;
     border: solid 2px #CCCCCC;
