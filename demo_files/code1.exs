@@ -1,9 +1,4 @@
-IO.puts("HOLA!!!")
-:timer.sleep(1000);
-IO.puts("HOLA!!!")
-:timer.sleep(1000);
-IO.puts("HOLA!!!")
-:timer.sleep(1000);
-IO.puts("HOLA!!!")
-:timer.sleep(1000);
-raise "oops"
+Enum.each(0..99, fn(x) ->
+  IO.puts "hello, world!"
+  :timer.sleep(100)
+end)

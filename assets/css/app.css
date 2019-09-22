@@ -157,6 +157,14 @@ code {
     white-space: pre-wrap;
 }
 
+.code-output .scroll-wrapper{
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    display:flex;
+    flex-direction:column-reverse;
+}
+
 .code-output p span.error{
     color: #CC1111;
 }
