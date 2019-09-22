@@ -140,7 +140,8 @@ defmodule PrexentWeb.SlidesLive do
       |> Map.put(:content, code)
       |> Map.put(:filename, filename)
 
-    {:noreply, socket |> put_slide_block(slide_idx, content_idx, block)}
+    Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:code_update, slide_idx, content_idx, block})
+    {:noreply, socket}
   end
 
   def handle_event(event, data, socket) do
@@ -193,6 +194,10 @@ defmodule PrexentWeb.SlidesLive do
         else: ""
 
     {:noreply, live_redirect(socket, to: "#{baseurl}/#{num}")}
+  end
+
+  def handle_info({:code_update, slide_idx, content_idx, block}, socket) do
+    {:noreply, socket |> put_slide_block(slide_idx, content_idx, block)}
   end
 
   def handle_info(data, socket) do
