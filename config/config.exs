@@ -13,6 +13,7 @@ config :prexent, PrexentWeb.Endpoint,
   secret_key_base: "zVKZGqh1PgDS2O5nZIJwEQtmCeA+945A/PZdtwSDMl0rGvqwt9CKtvH+UT5RacqE",
   render_errors: [view: PrexentWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Prexent.PubSub, adapter: Phoenix.PubSub.PG2],
+  reloadable_apps: [:prexent],
   live_view: [
     signing_salt: "gc8LvlKa8jwULPyGhlEmZkJNlDBOFvxLb3incF1dkIXsgxGDkOpXbaCyS1vyleED"
   ]

@@ -5,9 +5,17 @@
         <%= if slide_idx == @slide + 1 , do: "right" %>
         <%= if slide_idx < @slide - 1, do: "lefter" %>
         <%= if slide_idx > @slide + 1, do: "righter" %>" style="background-image: url(<%= get_background(slide)%>)">
-            <%= for {slide_data, content_idx} <- Enum.with_index(slide) do %>
-                <%= raw parse_slide(slide_idx, content_idx, slide_data) %>
-            <% end %>
+           <div class="header right">
+              <span><%= get_header(hd(@slides)) %></span>
+           </div>
+           <div class="content">
+              <%= for {slide_data, content_idx} <- Enum.with_index(slide) do %>
+                  <%= raw parse_slide(slide_idx, content_idx, slide_data) %>
+              <% end %>
+           </div>
+            <div class="footer right">
+               <span class="footer right"><%= get_footer(hd(@slides)) %> | <%= slide_idx + 1%></span>
+            </div>
             <div id="code-output-<%= slide_idx %>" class="code-output-container <%= if Map.get(@code_runners, @slide) != nil, do: "running" %>">
                 <div class="code-output">
                     <div class="scroll-wrapper">
