@@ -43,10 +43,10 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_event("run", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
-    code = get_slide_content(socket, slide_idx, content_idx)
+    block = get_slide_block(socket, slide_idx, content_idx)
 
     {:ok, _, id} =
-      Exexec.run(code.runner <> " " <> code.filename,
+      Exexec.run(block.runner <> " " <> block.filename,
         stdout: self(),
         stderr: self(),
         monitor: true
@@ -74,9 +74,19 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_event("edit", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
-    code = get_slide_content(socket, slide_idx, content_idx)
-    content = ~s(<textarea>#{code.content}</textarea>)
-    {:noreply, socket |> put_slide_content(slide_idx, content_idx, content)}
+    block =
+      get_slide_block(socket, slide_idx, content_idx)
+      |> Map.put(:type, :edit)
+
+    {:noreply, socket |> put_slide_block(slide_idx, content_idx, block)}
+  end
+
+  def handle_event("cancel", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
+    block =
+      get_slide_block(socket, slide_idx, content_idx)
+      |> Map.put(:type, :code)
+
+    {:noreply, socket |> put_slide_block(slide_idx, content_idx, block)}
   end
 
   def handle_event(event, data, socket) do
@@ -117,13 +127,13 @@ defmodule PrexentWeb.SlidesLive do
     {:noreply, socket}
   end
 
-  defp get_slide_content(socket, slide_idx, content_idx) do
+  defp get_slide_block(socket, slide_idx, content_idx) do
     socket.assigns.slides
     |> Enum.at(parse_slide_num(slide_idx), [])
     |> Enum.at(parse_slide_num(content_idx))
   end
 
-  defp put_slide_content(socket, slide_idx, content_idx, content) do
+  defp put_slide_block(socket, slide_idx, content_idx, block) do
     slide_idx = parse_slide_num(slide_idx)
     content_idx = parse_slide_num(content_idx)
 
@@ -131,11 +141,11 @@ defmodule PrexentWeb.SlidesLive do
       Enum.with_index(socket.assigns.slides)
       |> Enum.map(fn {slide, sidx} ->
         Enum.with_index(slide)
-        |> Enum.map(fn {scont, cidx} ->
+        |> Enum.map(fn {cblock, cidx} ->
           if sidx == slide_idx and cidx == content_idx do
-            Map.put(scont, :content, content)
+            block
           else
-            scont
+            cblock
           end
         end)
       end)
