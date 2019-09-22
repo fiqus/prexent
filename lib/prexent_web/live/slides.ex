@@ -24,8 +24,12 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_params(params, uri, socket) do
-    Logger.warn("Unhandled params at #{inspect(uri)} with: #{inspect(params)}")
-    {:noreply, socket}
+    if Regex.match?(~r/\/presenter/, uri) do
+      handle_params(%{"pslide" => 0}, uri, socket)
+    else
+      Logger.warn("Unhandled params at #{inspect(uri)} with: #{inspect(params)}")
+      {:noreply, socket}
+    end
   end
 
   def handle_event("forward_backward", %{"clicked" => clicked}, socket) do
