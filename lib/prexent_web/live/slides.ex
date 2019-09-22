@@ -2,6 +2,8 @@ defmodule PrexentWeb.SlidesLive do
   @moduledoc false
   use PrexentWeb, :live_view
 
+  @topic "slides"
+
   def render(assigns) do
     if Map.get(assigns, :presenter, false) do
       PrexentWeb.SlidesView.render("slides_presenter.html", assigns)
@@ -11,7 +13,7 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def mount(_params, socket) do
-    Phoenix.PubSub.subscribe(Prexent.PubSub, "slide")
+    Phoenix.PubSub.subscribe(Prexent.PubSub, @topic)
     source_md = Application.get_env(:prexent, :source_md) || "demo_files/demo1.md"
     slides = Prexent.Parser.to_parsed_list(source_md)
 
@@ -61,17 +63,17 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_event("run", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
-    Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:code_run, slide_idx, content_idx})
+    Phoenix.PubSub.broadcast(Prexent.PubSub, @topic, {:code_run, slide_idx, content_idx})
     {:noreply, socket}
   end
 
   def handle_event("close", %{"slide_idx" => slide_idx}, socket) do
-    Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:code_close, slide_idx})
+    Phoenix.PubSub.broadcast(Prexent.PubSub, @topic, {:code_close, slide_idx})
     {:noreply, socket}
   end
 
   def handle_event("stop", %{"slide_idx" => slide_idx}, socket) do
-    Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:code_stop, slide_idx})
+    Phoenix.PubSub.broadcast(Prexent.PubSub, @topic, {:code_stop, slide_idx})
     {:noreply, socket}
   end
 
@@ -107,7 +109,7 @@ defmodule PrexentWeb.SlidesLive do
 
     Phoenix.PubSub.broadcast(
       Prexent.PubSub,
-      "slide",
+      @topic,
       {:code_update, slide_idx, content_idx, block}
     )
 
@@ -259,7 +261,7 @@ defmodule PrexentWeb.SlidesLive do
       |> Enum.find(&(&1.type == :edit)) != nil
 
     if !is_editing? and socket.assigns.slide != num do
-      Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:slide_change, num})
+      Phoenix.PubSub.broadcast(Prexent.PubSub, @topic, {:slide_change, num})
     end
 
     {:noreply, socket}

@@ -39,6 +39,10 @@ defmodule PrexentWeb.SlidesView do
     ""
   end
 
+  def show_stop_button?(pid_slides, slide_idx) do
+    Map.values(pid_slides) |> Enum.find(&(&1 == slide_idx)) != nil
+  end
+
   def get_global_background(slide) do
     Enum.find(slide, %{content: ""}, fn x -> Map.get(x, :type) == :global_background end).content
   end

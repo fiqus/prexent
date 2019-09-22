@@ -32,7 +32,9 @@
                         </p>
                     </div>
                     <div class="buttons">
+                        <%= if show_stop_button?(Map.get(assigns, :pid_slides, %{}), slide_idx) do %>
                         <button phx-click="stop" phx-value-slide_idx="<%= slide_idx %>">Stop</button>
+                        <% end %>
                         <button phx-click="close" phx-value-slide_idx="<%= slide_idx %>">Close</button>
                     </div>
                 </div>
