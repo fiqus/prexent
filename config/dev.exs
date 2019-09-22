@@ -7,7 +7,7 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :prexent, PrexentWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: System.get_env("PORT") || 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -52,7 +52,8 @@ config :prexent, PrexentWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/prexent_web/{live,views}/.*(ex)$",
-      ~r"lib/prexent_web/templates/.*(eex)$"
+      ~r"lib/prexent_web/templates/.*(eex)$",
+      ~r"demo_files/.*$"
     ]
   ]
 

@@ -11,13 +11,18 @@ defmodule Mix.Tasks.Prexent.New do
     elixir_version_check!()
 
     name = hd(argv)
+    Mix.shell.info ":: #{name} prexent will be created ::"
     File.mkdir_p!(name)
+    Mix.shell.info "* dir created"
     File.cd!(name)
     File.mkdir_p!("code")
 
     create_default_md!(name)
+    Mix.shell.info "* default slide.md created"
     create_mix_exs_file!(name)
+    Mix.shell.info "* mix.exs created"
     create_gitignore!()
+    prompt_to_install_deps(name)
   end
 
   defp create_default_md!(name) do
@@ -98,5 +103,56 @@ defmodule Mix.Tasks.Prexent.New do
       Mix.raise "Prexent requires at least Elixir v1.5.\n " <>
                 "You have #{System.version()}. Please update accordingly"
     end
+  end
+
+  defp hex_available? do
+    Code.ensure_loaded?(Hex)
+  end
+
+  defp install_deps(install?) do
+   if install? && hex_available?(), do: cmd("mix deps.get")
+  end
+
+  defp rebar_available? do
+    Mix.Rebar.rebar_cmd(:rebar) && Mix.Rebar.rebar_cmd(:rebar3)
+  end
+
+  defp cmd(cmd) do
+    Mix.shell.info [:green, "* running ", :reset, cmd]
+    case Mix.shell.cmd(cmd, []) do
+      0 ->
+        []
+      _ ->
+        "$ #{cmd}"
+    end
+  end
+
+  defp prompt_to_install_deps(path) do
+    install? = Mix.shell.yes?("\nFetch and install dependencies?")
+    Mix.shell.info "$ cd #{path}"
+
+    mix_step = install_deps(install?)
+
+    compile =
+      case mix_step do
+        [] -> Task.async(fn -> rebar_available?() && cmd("mix deps.compile") end)
+        _  -> Task.async(fn -> :ok end)
+      end
+
+    Task.await(compile, :infinity)
+
+    Mix.shell.info mix_step
+
+    print_mix_run_info(path)
+  end
+
+  defp print_mix_run_info(path) do
+    Mix.shell.info """
+    Start your prexent with:
+        $ cd #{path}
+        $ mix prexent
+    You can specify the source markdown file if you change the default:
+        $ mix prexent SOURCE_FILE_PATH
+    """
   end
 end

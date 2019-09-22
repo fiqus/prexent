@@ -16,6 +16,12 @@ config :prexent, PrexentWeb.Endpoint,
   reloadable_apps: [:prexent],
   live_view: [
     signing_salt: "gc8LvlKa8jwULPyGhlEmZkJNlDBOFvxLb3incF1dkIXsgxGDkOpXbaCyS1vyleED"
+  ],
+  live_reload: [
+    patterns: [
+      ~r"code/.*$",
+      ~r"slides.md$"
+    ]
   ]
 
 # Configures Elixir's Logger
