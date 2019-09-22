@@ -24,7 +24,7 @@ defmodule Mix.Tasks.Prexent do
   end
 
   defp check_file!(filename) do
-    if not File.exists?(filename), do:
-      Mix.raise "The slides source file '#{filename}' does not exist"
+    if not File.exists?(filename),
+      do: Mix.raise("The slides source file '#{filename}' does not exist")
   end
 end
