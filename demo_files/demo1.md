@@ -1,3 +1,6 @@
+!header Fiqus
+!footer Slider
+
 # Demo Slides
 
 ### Testing command code not found:

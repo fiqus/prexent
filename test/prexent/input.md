@@ -1,5 +1,6 @@
 !background test/prexent/background.jpg
-
+!header Header
+!footer Footer
 # Title
 
 
