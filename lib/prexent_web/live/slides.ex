@@ -27,7 +27,7 @@ defmodule PrexentWeb.SlidesLive do
     handle_params(%{"slide" => slide}, uri, socket |> assign(:presenter, true))
   end
 
-  def handle_params(params, uri, socket) do
+  def handle_params(_params, uri, socket) do
     if Regex.match?(~r/\/presenter/, uri) do
       handle_params(%{"pslide" => 0}, uri, socket)
     else
@@ -61,52 +61,17 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_event("run", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
-    block = get_slide_block(socket, slide_idx, content_idx)
-
-    {:ok, _, id} =
-      Exexec.run(block.runner <> " " <> block.filename,
-        stdout: self(),
-        stderr: self(),
-        monitor: true
-      )
-
-    {
-      :noreply,
-      assign(
-        socket,
-        code_runners: Map.put(socket.assigns.code_runners, parse_slide_num(slide_idx), ""),
-        pid_slides: Map.put(socket.assigns.pid_slides, id, parse_slide_num(slide_idx))
-      )
-    }
+    Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:code_run, slide_idx, content_idx})
+    {:noreply, socket}
   end
 
   def handle_event("close", %{"slide_idx" => slide_idx}, socket) do
-    slide_num = parse_slide_num(slide_idx)
-
-    slide_pid =
-      socket.assigns.pid_slides
-      |> Enum.find(fn {_, val} -> val == slide_num end)
-
-    if slide_pid != nil, do: Exexec.stop(elem(slide_pid, 0))
-
-    {
-      :noreply,
-      assign(
-        socket,
-        code_runners: Map.delete(socket.assigns.code_runners, slide_num),
-        pid_slides: Map.delete(socket.assigns.pid_slides, slide_pid)
-      )
-    }
+    Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:code_close, slide_idx})
+    {:noreply, socket}
   end
 
   def handle_event("stop", %{"slide_idx" => slide_idx}, socket) do
-    slide_num = parse_slide_num(slide_idx)
-
-    slide_pid =
-      socket.assigns.pid_slides
-      |> Enum.find(fn {_, val} -> val == slide_num end)
-
-    if slide_pid != nil, do: Exexec.stop(elem(slide_pid, 0))
+    Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:code_stop, slide_idx})
     {:noreply, socket}
   end
 
@@ -140,7 +105,12 @@ defmodule PrexentWeb.SlidesLive do
       |> Map.put(:content, code)
       |> Map.put(:filename, filename)
 
-    Phoenix.PubSub.broadcast(Prexent.PubSub, "slide", {:code_update, slide_idx, content_idx, block})
+    Phoenix.PubSub.broadcast(
+      Prexent.PubSub,
+      "slide",
+      {:code_update, slide_idx, content_idx, block}
+    )
+
     {:noreply, socket}
   end
 
@@ -198,6 +168,56 @@ defmodule PrexentWeb.SlidesLive do
 
   def handle_info({:code_update, slide_idx, content_idx, block}, socket) do
     {:noreply, socket |> put_slide_block(slide_idx, content_idx, block)}
+  end
+
+  def handle_info({:code_run, slide_idx, content_idx}, socket) do
+    block = get_slide_block(socket, slide_idx, content_idx)
+
+    {:ok, _, id} =
+      Exexec.run(block.runner <> " " <> block.filename,
+        stdout: self(),
+        stderr: self(),
+        monitor: true
+      )
+
+    {
+      :noreply,
+      assign(
+        socket,
+        code_runners: Map.put(socket.assigns.code_runners, parse_slide_num(slide_idx), ""),
+        pid_slides: Map.put(socket.assigns.pid_slides, id, parse_slide_num(slide_idx))
+      )
+    }
+  end
+
+  def handle_info({:code_stop, slide_idx}, socket) do
+    slide_num = parse_slide_num(slide_idx)
+
+    slide_pid =
+      socket.assigns.pid_slides
+      |> Enum.find(fn {_, val} -> val == slide_num end)
+
+    if slide_pid != nil, do: Exexec.stop(elem(slide_pid, 0))
+    {:noreply, socket}
+  end
+
+  def handle_info({:code_close, slide_idx}, socket) do
+    slide_num = parse_slide_num(slide_idx)
+
+    slide_pid =
+      socket.assigns.pid_slides
+      |> Enum.find(fn {_, val} -> val == slide_num end)
+
+    if slide_pid != nil, do: Exexec.stop(elem(slide_pid, 0))
+
+    {
+      :noreply,
+      assign(
+        socket,
+        code_runners: Map.delete(socket.assigns.code_runners, slide_num),
+        pid_slides: Map.delete(socket.assigns.pid_slides, slide_pid)
+      )
+    }
   end
 
   def handle_info(data, socket) do
