@@ -31,47 +31,30 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_event("run", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
-    code = socket.assigns.slides
-           |> Enum.at(parse_slide_num(slide_idx))
-           |> Enum.at(parse_slide_num(content_idx))
+    code =
+      socket.assigns.slides
+      |> Enum.at(parse_slide_num(slide_idx))
+      |> Enum.at(parse_slide_num(content_idx))
 
     IO.inspect(code.filename)
-    proc = %Proc{pid: pid} = Porcelain.spawn_shell(
-      "elixir " <> code.filename,
-      in: :receive,
-      err: {:send, self()},
-      out: {:send, self()},
-      result: :keep
-    )
+
+    %Proc{pid: pid} =
+      Porcelain.spawn_shell(
+        "elixir " <> code.filename,
+        in: :receive,
+        err: {:send, self()},
+        out: {:send, self()},
+        result: :keep
+      )
 
     {
       :noreply,
       assign(
         socket,
-        [
-          code_runners: Map.put(socket.assigns.code_runners, parse_slide_num(slide_idx), ""),
-          pid_slides: Map.put(socket.assigns.pid_slides, pid, parse_slide_num(slide_idx))
-        ]
+        code_runners: Map.put(socket.assigns.code_runners, parse_slide_num(slide_idx), ""),
+        pid_slides: Map.put(socket.assigns.pid_slides, pid, parse_slide_num(slide_idx))
       )
     }
-  end
-
-  def handle_info({pid, :data, :out, data}, socket) do
-    slide_idx = Map.get(socket.assigns.pid_slides, pid)
-    {
-      :noreply,
-      assign(
-        socket,
-        :code_runners,
-        Map.put(socket.assigns.code_runners, slide_idx, Map.get(socket.assigns.code_runners, slide_idx) <> data)
-      )
-    }
-  end
-  def handle_info(data, socket) do
-    IO.inspect(data )
-    {:noreply, socket}
-    # slide_idx = Map.get(socket.assigns.pid_slides, pid)
-    # {:noreply, assign(socket, :code_runners, Map.put(socket.assigns.code_runners, slide_idx, Map.get(socket.assigns.code_runners, slide_idx) <> "PROCESS FINISHED"))}
   end
 
   def handle_event("close", %{"slide_idx" => slide_idx}, socket) do
@@ -87,6 +70,30 @@ defmodule PrexentWeb.SlidesLive do
 
   def handle_event(_ev, _data, socket) do
     {:noreply, socket}
+  end
+
+  def handle_info({pid, :data, :out, data}, socket) do
+    slide_idx = Map.get(socket.assigns.pid_slides, pid)
+
+    {
+      :noreply,
+      assign(
+        socket,
+        :code_runners,
+        Map.put(
+          socket.assigns.code_runners,
+          slide_idx,
+          Map.get(socket.assigns.code_runners, slide_idx) <> data
+        )
+      )
+    }
+  end
+
+  def handle_info(data, socket) do
+    IO.inspect(data)
+    {:noreply, socket}
+    # slide_idx = Map.get(socket.assigns.pid_slides, pid)
+    # {:noreply, assign(socket, :code_runners, Map.put(socket.assigns.code_runners, slide_idx, Map.get(socket.assigns.code_runners, slide_idx) <> "PROCESS FINISHED"))}
   end
 
   defp handle_slide_change(socket, slide) do
@@ -120,8 +127,8 @@ defmodule PrexentWeb.SlidesLive do
     num = parse_slide_num(slide)
 
     if valid_slide?(socket, num),
-       do: num,
-       else: 0
+      do: num,
+      else: 0
   end
 
   defp parse_slide_num(slide) when is_integer(slide), do: slide

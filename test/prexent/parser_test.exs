@@ -6,7 +6,7 @@ defmodule Prexent.ParserTest do
 
     assert html_list == [
              [
-               %{content: ["test/prexent/background.jpg"], type: :background},
+               %{content: "test/prexent/background.jpg", type: :background},
                %{
                  content: "<h1>Title</h1>\n<ul>\n<li>Point 1\n</li>\n<li>Point 2\n</li>\n</ul>\n",
                  type: :html
