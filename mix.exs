@@ -9,7 +9,11 @@ defmodule Prexent.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases(),
+      preferred_cli_env: [
+        install: :prod
+      ]
     ]
   end
 
@@ -42,6 +46,12 @@ defmodule Prexent.MixProject do
       {:phoenix_live_view, "~> 0.3.0"},
       {:earmark, "~> 1.4"},
       {:porcelain, "~> 2.0"}
+    ]
+  end
+
+  defp aliases do
+    [
+      install: ["do archive.build, archive.install"]
     ]
   end
 end
