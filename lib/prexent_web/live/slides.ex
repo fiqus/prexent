@@ -31,7 +31,6 @@ defmodule PrexentWeb.SlidesLive do
     if Regex.match?(~r/\/presenter/, uri) do
       handle_params(%{"pslide" => 0}, uri, socket)
     else
-      Logger.warn("Unhandled params at #{inspect(uri)} with: #{inspect(params)}")
       {:noreply, socket}
     end
   end
