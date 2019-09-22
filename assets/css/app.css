@@ -290,8 +290,18 @@ table tbody td {
     z-index: 1;
 }
 
+.presenter .slide.lefter{
+    transform: scale(.25) translate(-300%, -55%);
+    z-index: 1;
+}
+
 .presenter .slide.right{
     transform: scale(.25) translate(140%, -55%);
+    z-index: 1;
+}
+
+.presenter .slide.righter{
+    transform: scale(.25) translate(300%, -55%);
     z-index: 1;
 }
 
