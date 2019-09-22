@@ -27,8 +27,12 @@ defmodule PrexentWeb.SlidesView do
     ""
   end
 
-  def get_background(slide) do
-    Enum.find(slide, %{content: ""}, fn x -> Map.get(x, :type) == :background end).content
+  def get_global_background(slide) do
+    Enum.find(slide, %{content: ""}, fn x -> Map.get(x, :type) == :global_background end).content
+  end
+
+  def get_slide_background(slide) do
+    Enum.find(slide, %{content: ""}, fn x -> Map.get(x, :type) == :slide_background end).content
   end
 
   def get_header(slide) do
@@ -43,5 +47,9 @@ defmodule PrexentWeb.SlidesView do
     slide
     |> Enum.filter(&(Map.get(&1, :type) == :custom_css))
     |> Enum.map(& &1.content)
+  end
+
+  def get_slide_classes(slide) do
+    Enum.find(slide, %{content: []}, fn x -> Map.get(x, :type) == :slide_classes end).content
   end
 end

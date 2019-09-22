@@ -12,6 +12,9 @@ html, body {
 }
 
 div.slide {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     box-sizing: border-box;
     border: 1px solid lightgray;
     position: absolute;
@@ -196,7 +199,6 @@ code.hljs>*{
     left: 0;
     padding: .7rem;
     background-color: #efefef;
-    text-align: right;
 }
 
 .footer {
