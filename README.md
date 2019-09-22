@@ -6,7 +6,7 @@
 
 This is the Spawnfest 2019 project by [Fiqus](https://github.com/fiqus) team.
 
-A HTML presentations generator from markdown files with the ability to *run* and *edit* live elixir code (and other bunch of languages).
+A HTML presentations generator from markdown files with the ability to *run* and *edit* live elixir code (and other languages you have the interpreter for), add comments for the presenter view
 Once you create a prexent, the dependency will be installed on top of Phoenix and LiveView, gaining all its powerfull features.
 
 Install the mix archive, create presentations quicky on the fly, edit markdown, include your code and prexent!
@@ -18,7 +18,7 @@ Install the mix archive, create presentations quicky on the fly, edit markdown, 
 ## Create a presentation
 Install the mix archive installer from Hex:
 
-    $ mix archive.install hex prexent_new 0.1.1
+    $ mix archive.install hex prexent_new 0.2.0
 
 Or create it from an unreleased version:
 
@@ -46,6 +46,8 @@ If you change the file name you can optionally pass that to the task:
 
     $ mix present source_file.md
 
+Access to `http://localhost:4000` for the slideshow view or `http://localhost:4000/presenter` for the presenter view.
+
 ## Prexent commands
 
 Customize your presentations, add prexent commands wherever you want in your markdown file:
@@ -53,10 +55,14 @@ Customize your presentations, add prexent commands wherever you want in your mar
 #### Live code
     !code code/my_function.exs
 
+For other languages than elixir you have to specify the language (2nd param) and the interpreter (3rd param), i.e:
+
+    !code code/code.py python python3
+
 #### Header, footer, css..
     !header Fiqus
     !footer Slider
-    !custom_css demo_files/custom.css
+    !custom_css custom.css
 
 #### Background image
 Global background
@@ -69,5 +75,19 @@ Background for a specific slide
 
 #### Include other markdown files
     !include partial.md
+
+#### Comment
+The comment is only shown in the presenter view.
+
+    !comment tip for this slide!
+
+## Examples
+
+The Prexent source code ships with some prexent project presentations examples under `/examples`.
+Try them yourself!
+
+    $ cd examples/photos
+    $ mix deps.get
+    $ mix prexent
 
 Enjoy!

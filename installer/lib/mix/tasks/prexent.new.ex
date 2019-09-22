@@ -79,7 +79,7 @@ defmodule Mix.Tasks.Prexent.New do
 
         defp deps do
           [
-            {:prexent, "~> 0.1.1"}
+            {:prexent, "~> 0.2.0"}
           ]
         end
 
