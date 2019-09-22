@@ -26,15 +26,20 @@ defmodule PrexentWeb.SlidesLive do
     handle_slide_change(socket, max(socket.assigns.slide - 1, 0))
   end
 
+  def handle_event("keyup", %{"key" => "ArrowDown"}, socket) do
+    handle_slide_change(socket, max(socket.assigns.slide - 2, 0))
+  end
+
   def handle_event("keyup", %{"key" => "ArrowRight"}, socket) do
     handle_slide_change(socket, min(socket.assigns.slide + 1, length(socket.assigns.slides) - 1))
   end
 
+  def handle_event("keyup", %{"key" => "ArrowUp"}, socket) do
+    handle_slide_change(socket, max(socket.assigns.slide + 2, 0))
+  end
+
   def handle_event("run", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
-    code =
-      socket.assigns.slides
-      |> Enum.at(parse_slide_num(slide_idx))
-      |> Enum.at(parse_slide_num(content_idx))
+    code = get_slide_content(socket, slide_idx, content_idx)
 
     IO.inspect(code.filename)
 
@@ -68,6 +73,12 @@ defmodule PrexentWeb.SlidesLive do
     }
   end
 
+  def handle_event("edit", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
+    code = get_slide_content(socket, slide_idx, content_idx)
+    content = ~s(<textarea>#{code.content}</textarea>)
+    {:noreply, socket |> put_slide_content(slide_idx, content_idx, content)}
+  end
+
   def handle_event(event, data, socket) do
     Logger.warn("Unhandled event #{inspect(event)} with data: #{inspect(data)}")
     {:noreply, socket}
@@ -95,6 +106,27 @@ defmodule PrexentWeb.SlidesLive do
     {:noreply, socket}
     # slide_idx = Map.get(socket.assigns.pid_slides, pid)
     # {:noreply, assign(socket, :code_runners, Map.put(socket.assigns.code_runners, slide_idx, Map.get(socket.assigns.code_runners, slide_idx) <> "PROCESS FINISHED"))}
+  end
+
+  defp get_slide_content(socket, slide_idx, content_idx) do
+    socket.assigns.slides
+      |> Enum.at(parse_slide_num(slide_idx), [])
+      |> Enum.at(parse_slide_num(content_idx))
+  end
+
+  defp put_slide_content(socket, slide_idx, content_idx, content) do
+    slide_idx = parse_slide_num(slide_idx)
+    content_idx = parse_slide_num(content_idx)
+    slides = Enum.with_index(socket.assigns.slides) |> Enum.map(fn {slide, sidx} ->
+      Enum.with_index(slide) |> Enum.map(fn {scont, cidx} ->
+        if sidx == slide_idx and cidx == content_idx do
+          Map.put(scont, :content, content)
+        else
+          scont
+        end
+      end)
+    end)
+    assign(socket, :slides, slides)
   end
 
   defp handle_slide_change(socket, slide) do
