@@ -177,3 +177,7 @@ code.hljs{
     padding: .9em;
     border-radius: 10px;
 }
+
+code.hljs>*{
+    font-family: 'Roboto Mono', monospace;
+}
