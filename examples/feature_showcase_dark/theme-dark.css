@@ -1,0 +1,62 @@
+html, body {
+    background-color: #222222;
+    color: #a8a8a8;
+}
+
+div.slide {
+    border: 1px solid #0e0e0e;
+    background-color: #363636;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+div.error {
+    color: red;
+}
+
+blockquote {
+    border-left: 5px solid lightgray;
+    color: #555555;
+}
+
+.code button, .code-output button{
+    border: 1px solid black;
+    background-color: #d1d1d1;
+}
+.code-output p{
+    color: #CCCCCC;
+}
+
+.code-output p span.error{
+    color: #CC1111;
+}
+
+.code-output p span.ok{
+    color: #11CC11;
+}
+
+.header {
+    background-color: #242424;
+}
+
+.header-text {
+    color: gray;
+}
+
+.footer {
+    background-color: #242424;
+}
+
+.footer-text {
+    color: #5e5e5e;
+}
+
+table thead th {
+    background-color: #292929;
+    border: solid 2px #000000;
+    color: #eeeeee;
+}
+table tbody td {
+    border: solid 2px #000000;
+    color: #eeeeee;
+}

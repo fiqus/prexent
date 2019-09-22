@@ -1,0 +1,25 @@
+@keyframes rainbow{
+    0%{background-color: orange;}
+    10%{background-color: purple;}
+    20%{background-color: red;}
+    30%{background-color: CadetBlue;}
+    40%{background-color: yellow;}
+    50%{background-color: coral;}
+    60%{background-color: green;}
+    70%{background-color: cyan;}
+    80%{background-color: DeepPink;}
+    90%{background-color: DodgerBlue;}
+    100%{background-color: orange;}
+}
+
+.slide.custom{
+    animation: rainbow 10s infinite;
+}
+
+.slide.custom .footer{
+    display: none;
+}
+
+.slide.custom .header{
+    display: none;
+}
