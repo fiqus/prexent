@@ -293,3 +293,16 @@ table tbody td {
     transform: scale(.25) translate(140%, -55%);
     z-index: 1;
 }
+
+.comments{
+    position: absolute;
+    height: 25%;
+    bottom:0;
+    padding: 2%;
+    background-color: white;
+    border-top: 2px solid darkgray;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: scroll;
+}

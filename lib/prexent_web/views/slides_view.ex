@@ -61,6 +61,13 @@ defmodule PrexentWeb.SlidesView do
     |> Enum.map(& &1.content)
   end
 
+  def get_comments(slides, slide) do
+    slides
+    |> Enum.at(slide)
+    |> Enum.filter(&(Map.get(&1, :type) == :comment))
+    |> Enum.map(& &1.content)
+  end
+
   def get_slide_classes(slide) do
     Enum.find(slide, %{content: []}, fn x -> Map.get(x, :type) == :slide_classes end).content
   end

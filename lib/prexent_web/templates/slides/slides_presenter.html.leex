@@ -39,4 +39,9 @@
             </div>
         </div>
     <% end %>
+    <div class='comments'>
+        <%= for comment <- get_comments(@slides, @slide) do %>
+            <p><%= comment %></p>
+        <% end %>
+    </div>
 </div>

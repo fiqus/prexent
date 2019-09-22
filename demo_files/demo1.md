@@ -9,6 +9,11 @@
 !code demo_files/code1.exs
 
 !comment this is the first slide
+!comment more comments
+!comment and more
+!comment and more 
+!comment this is the first slide
+!comment this is the first slide
 
 ---
 
