@@ -6,7 +6,7 @@
 
 This is the Spawnfest 2019 project by [Fiqus](https://github.com/fiqus) team.
 
-A HTML presentations generator from markdown files with the ability to *run* and *edit* live elixir code (and other languages you have the interpreter for), add comments for the presenter view
+A HTML presentations generator from markdown files with the ability to *run* and *edit* live elixir code (and other languages you have the interpreter for), add comments for the presenter view, images, css, etc.
 Once you create a prexent, the dependency will be installed on top of Phoenix and LiveView, gaining all its powerfull features.
 
 Install the mix archive, create presentations quicky on the fly, edit markdown, include your code and prexent!
