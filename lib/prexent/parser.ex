@@ -112,7 +112,7 @@ defmodule Prexent.Parser do
   defp process_chunk("!" <> rest) do
     case String.split(rest, " ") do
       ["header" | args] -> %{type: :header, content: Enum.join(args, " ")}
-      ["footer" | args] -> %{type: :footer, content: Enum.at(args, " ")}
+      ["footer" | args] -> %{type: :footer, content: Enum.join(args, " ")}
       ["custom_css" | args] -> %{type: :custom_css, content: Enum.at(args, 0)}
       ["global_background" | args] -> %{type: :global_background, content: Enum.at(args, 0)}
       ["slide_background" | args] -> %{type: :slide_background, content: Enum.at(args, 0)}
