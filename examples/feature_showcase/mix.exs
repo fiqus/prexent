@@ -1,4 +1,4 @@
-defmodule Feature_showcase.MixProject do
+defmodule FeatureShowcase.MixProject do
   use Mix.Project
 
   def project do
@@ -20,7 +20,7 @@ defmodule Feature_showcase.MixProject do
 
   defp deps do
     [
-      {:prexent, "~> 0.1.1"}
+      {:prexent, "~> 0.2.0"}
     ]
   end
 
