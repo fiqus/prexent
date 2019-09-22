@@ -68,7 +68,8 @@ defmodule PrexentWeb.SlidesLive do
     }
   end
 
-  def handle_event(_ev, _data, socket) do
+  def handle_event(event, data, socket) do
+    Logger.warn("Unhandled event #{inspect(event)} with data: #{inspect(data)}")
     {:noreply, socket}
   end
 
@@ -90,7 +91,7 @@ defmodule PrexentWeb.SlidesLive do
   end
 
   def handle_info(data, socket) do
-    IO.inspect(data)
+    Logger.warn("Unhandled info with data: #{inspect(data)}")
     {:noreply, socket}
     # slide_idx = Map.get(socket.assigns.pid_slides, pid)
     # {:noreply, assign(socket, :code_runners, Map.put(socket.assigns.code_runners, slide_idx, Map.get(socket.assigns.code_runners, slide_idx) <> "PROCESS FINISHED"))}
