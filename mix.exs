@@ -18,17 +18,7 @@ defmodule Prexent.MixProject do
       preferred_cli_env: [
         install: :prod
       ],
-      package: [
-        maintainers: [
-          "Pablo Brudnick",
-          "Diego Calero",
-          "Mariano Lambir",
-          "Joaquín Mansilla"
-        ],
-        licenses: ["MIT"],
-        links: %{github: @url},
-        files: ~w(lib priv config mix.exs README.md)
-      ],
+      package: package(),
       source_url: @url,
       docs: docs(),
       description:
@@ -72,6 +62,15 @@ defmodule Prexent.MixProject do
   defp aliases do
     [
       install: ["do archive.build, archive.install"]
+    ]
+  end
+
+  defp package do
+    [
+      maintainers: ["Pablo Brudnick", "Diego Calero", "Mariano Lambir", "Joaquín Mansilla"],
+      licenses: ["MIT"],
+      links: %{github: @url},
+      files: ~w(lib priv config mix.exs README.md LICENSE.md)
     ]
   end
 
