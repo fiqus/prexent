@@ -41,3 +41,7 @@ Array.from(document.getElementsByTagName("body")).forEach((body) => {
   // Start observing the target node for configured mutations (which mutations to observe)
   observer.observe(body, {attributes: true, childList: true, subtree: true});
 });
+
+window.onCodeApply = (btn) => {
+  console.log(btn);
+};
