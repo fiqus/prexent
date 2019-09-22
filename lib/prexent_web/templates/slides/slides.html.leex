@@ -4,7 +4,13 @@
         <%= if slide_idx == @slide - 1 , do: "left" %>
         <%= if slide_idx == @slide + 1 , do: "right" %>
         <%= if slide_idx < @slide - 1, do: "lefter" %>
-        <%= if slide_idx > @slide + 1, do: "righter" %>" style="background-image: url(<%= get_background(slide)%>)">
+        <%= if slide_idx > @slide + 1, do: "righter" %>" 
+           style="
+                background-image: url(<%= get_background(slide)%>);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                ">
            <div class="header right">
               <span><%= get_header(hd(@slides)) %></span>
            </div>
@@ -16,11 +22,11 @@
             <div class="footer right">
                <span class="footer right"><%= get_footer(hd(@slides)) %> | <%= slide_idx + 1%></span>
             </div>
-            <div id="code-output-<%= slide_idx %>" class="code-output-container <%= if Map.get(@code_runners, slide_idx) != nil, do: "running" %>">
+            <div class="code-output-container <%= if Map.get(@code_runners, @slide) != nil, do: "running" %>">
                 <div class="code-output">
                     <div class="scroll-wrapper">
                         <p>
-                            <%= raw Map.get(@code_runners, slide_idx) %>
+                            <%= raw Map.get(@code_runners, @slide) %>
                         </p>
                     </div>
                     <button phx-click="close" phx-value-slide_idx="<%= slide_idx %>">Close</button>
