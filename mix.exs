@@ -31,7 +31,8 @@ defmodule Prexent.MixProject do
       ],
       source_url: @url,
       docs: docs(),
-      description: "Fast, live and beautiful presentations from Markdown powered by Phoenix LiveView"
+      description:
+        "Fast, live and beautiful presentations from Markdown powered by Phoenix LiveView"
     ]
   end
 

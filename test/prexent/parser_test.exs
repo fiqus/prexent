@@ -19,8 +19,8 @@ defmodule Prexent.ParserTest do
                }
              ],
              [
-              %{type: :html, content: ""},
-              %{content: "test/prexent/background.jpg", type: :slide_background},
+               %{type: :html, content: ""},
+               %{content: "test/prexent/background.jpg", type: :slide_background},
                %{
                  content:
                    "<h2>Second slide</h2>\n<blockquote><p>Best quote ever.</p>\n</blockquote>\n<p>Note: speaker notes FTW!</p>\n",

@@ -45,8 +45,13 @@ defmodule PrexentWeb.SlidesLive do
   def handle_event("run", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
     code = get_slide_content(socket, slide_idx, content_idx)
 
+    {:ok, _, id} =
+      Exexec.run(code.runner <> " " <> code.filename,
+        stdout: self(),
+        stderr: self(),
+        monitor: true
+      )
 
-    {:ok, _, id} = Exexec.run(code.runner <> " " <> code.filename, stdout: self(), stderr: self(), monitor: true)
     {
       :noreply,
       assign(
@@ -83,6 +88,7 @@ defmodule PrexentWeb.SlidesLive do
     str = "<span class='#{class}'>#{data}</span>"
 
     slide_idx = Map.get(socket.assigns.pid_slides, id)
+
     {
       :noreply,
       assign(
@@ -99,8 +105,12 @@ defmodule PrexentWeb.SlidesLive do
 
   def handle_info({:stdout, id, data}, socket), do: do_output("", id, data, socket)
   def handle_info({:stderr, id, data}, socket), do: do_output("error", id, data, socket)
-  def handle_info({:DOWN, id, _, _, :normal}, socket), do: do_output("ok", id, "Program exited normally", socket)
-  def handle_info({:DOWN, id, _, _, {:exit_status, n}}, socket), do: do_output("error", id, "Program exited with status #{n}", socket)
+
+  def handle_info({:DOWN, id, _, _, :normal}, socket),
+    do: do_output("ok", id, "Program exited normally", socket)
+
+  def handle_info({:DOWN, id, _, _, {:exit_status, n}}, socket),
+    do: do_output("error", id, "Program exited with status #{n}", socket)
 
   def handle_info(data, socket) do
     Logger.warn("Unhandled info with data: #{inspect(data)}")
