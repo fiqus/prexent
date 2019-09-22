@@ -1,4 +1,5 @@
----
+!header Fiqus
+!footer Slider
 
 ### Testing command code not found:
 !code not/found.exs
