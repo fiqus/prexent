@@ -23,6 +23,11 @@ defmodule PrexentWeb.SlidesLive do
     {:noreply, socket}
   end
 
+  def handle_event("forward_backward", %{"clicked" => clicked}, socket) do
+    forward_backward = String.to_integer(clicked) - socket.assigns.slide
+    handle_slide_change(socket, socket.assigns.slide + forward_backward)
+  end
+
   def handle_event("keyup", %{"key" => "ArrowLeft"}, socket) do
     handle_slide_change(socket, max(socket.assigns.slide - 1, 0))
   end
