@@ -23,7 +23,8 @@
             <div class="footer right">
                <span class="footer right"><%= get_footer(hd(@slides)) %> | <%= slide_idx + 1%></span>
             </div>
-            <div class="code-output-container <%= if Map.get(@code_runners, @slide) != nil, do: "running" %>">
+
+            <div class="code-output-container <%= if Map.get(@code_runners, slide_idx) != nil, do: "running" %>">
                 <div class="code-output">
                     <div class="scroll-wrapper">
                         <p>

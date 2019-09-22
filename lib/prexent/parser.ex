@@ -56,8 +56,11 @@ defmodule Prexent.Parser do
 
   defp process_chunk("---"), do: "---"
 
-  defp process_chunk("!code " <> argument) do
-    path_to_file = path_to_file(argument)
+  defp process_chunk("!code " <> arguments), do: process_code(String.split(arguments, " "))
+
+  defp process_code([fname]), do: process_code([fname, "elixir", "elixir"])
+  defp process_code([fname, lang, runner]) do
+    path_to_file = path_to_file(fname)
 
     try do
       file_content = read_file!(path_to_file)
@@ -66,13 +69,19 @@ defmodule Prexent.Parser do
         type: :code,
         content: file_content,
         filename: path_to_file,
-        lang: "elixir"
+        runner: runner,
+        lang: lang
       }
     rescue
       _ ->
         process_error("Code file not found: #{path_to_file}")
     end
   end
+
+  defp process_code(parameters) do
+    process_error("invalid code parameters #{Enum.join(parameters, ' ')}")
+  end
+
 
   defp process_chunk("!include " <> argument) do
     path_to_file = path_to_file(argument)
@@ -91,10 +100,10 @@ defmodule Prexent.Parser do
       ["header" | args] -> %{type: :header, content: Enum.at(args, 0)}
       ["footer" | args] -> %{type: :footer, content: Enum.at(args, 0)}
       ["custom_css" | args] -> %{type: :custom_css, content: Enum.at(args, 0)}
-      ["global_background" | args] -> %{ type: :global_background, content: Enum.at(args, 0) }
-      ["slide_background" | args] -> %{ type: :slide_background, content: Enum.at(args, 0) }
-      ["slide_classes" | args] -> %{ type: :slide_classes, content: args }
-      _ -> %{ type: :error, content: "wrong command !#{rest}" }
+      ["global_background" | args] -> %{type: :global_background, content: Enum.at(args, 0)}
+      ["slide_background" | args] -> %{type: :slide_background, content: Enum.at(args, 0)}
+      ["slide_classes" | args] -> %{type: :slide_classes, content: args}
+      _ -> %{type: :error, content: "wrong command !#{rest}"}
     end
   end
 
@@ -112,10 +121,10 @@ defmodule Prexent.Parser do
   end
 
   defp process_error(content),
-    do: %{
-      type: :error,
-      content: content
-    }
+       do: %{
+         type: :error,
+         content: content
+       }
 
   defp path_to_file(input) do
     input

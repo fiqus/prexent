@@ -44,7 +44,7 @@ defmodule PrexentWeb.SlidesLive do
 
     %Proc{pid: pid} =
       Porcelain.spawn_shell(
-        "elixir " <> code.filename,
+        code.runner <> " " <> code.filename,
         in: :receive,
         err: {:send, self()},
         out: {:send, self()},
@@ -120,8 +120,6 @@ defmodule PrexentWeb.SlidesLive do
   def handle_info(data, socket) do
     Logger.warn("Unhandled info with data: #{inspect(data)}")
     {:noreply, socket}
-    # slide_idx = Map.get(socket.assigns.pid_slides, pid)
-    # {:noreply, assign(socket, :code_runners, Map.put(socket.assigns.code_runners, slide_idx, Map.get(socket.assigns.code_runners, slide_idx) <> "PROCESS FINISHED"))}
   end
 
   defp get_slide_content(socket, slide_idx, content_idx) do
