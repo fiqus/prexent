@@ -2,8 +2,6 @@ defmodule PrexentWeb.SlidesLive do
   @moduledoc false
   use PrexentWeb, :live_view
 
-  alias Porcelain.Process, as: Proc
-
   def render(assigns) do
     PrexentWeb.SlidesView.render("slides.html", assigns)
   end
@@ -42,21 +40,14 @@ defmodule PrexentWeb.SlidesLive do
   def handle_event("run", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
     code = get_slide_content(socket, slide_idx, content_idx)
 
-    %Proc{pid: pid} =
-      Porcelain.spawn_shell(
-        code.runner <> " " <> code.filename,
-        in: :receive,
-        err: {:send, self()},
-        out: {:send, self()},
-        result: :keep
-      )
 
+    {:ok, _, id} = Exexec.run(code.runner <> " " <> code.filename, stdout: self(), stderr: self(), monitor: true)
     {
       :noreply,
       assign(
         socket,
         code_runners: Map.put(socket.assigns.code_runners, parse_slide_num(slide_idx), ""),
-        pid_slides: Map.put(socket.assigns.pid_slides, pid, parse_slide_num(slide_idx))
+        pid_slides: Map.put(socket.assigns.pid_slides, id, parse_slide_num(slide_idx))
       )
     }
   end
@@ -83,9 +74,10 @@ defmodule PrexentWeb.SlidesLive do
     {:noreply, socket}
   end
 
-  def handle_info({pid, :data, :out, data}, socket) do
-    slide_idx = Map.get(socket.assigns.pid_slides, pid)
+  defp do_output(class, id, data, socket) do
+    str = "<span class='#{class}'>#{data}</span>"
 
+    slide_idx = Map.get(socket.assigns.pid_slides, id)
     {
       :noreply,
       assign(
@@ -94,28 +86,16 @@ defmodule PrexentWeb.SlidesLive do
         Map.put(
           socket.assigns.code_runners,
           slide_idx,
-          Map.get(socket.assigns.code_runners, slide_idx) <> data
+          Map.get(socket.assigns.code_runners, slide_idx) <> str
         )
       )
     }
   end
 
-  def handle_info({pid, :result, %{status: status}}, socket) do
-    slide_idx = Map.get(socket.assigns.pid_slides, pid)
-    class = if status == 0, do: "ok", else: "error"
-    exit_str = "<span class='#{class}'>Program exited with code #{status}</span>"
-
-    {:noreply,
-     assign(
-       socket,
-       :code_runners,
-       Map.put(
-         socket.assigns.code_runners,
-         slide_idx,
-         Map.get(socket.assigns.code_runners, slide_idx) <> exit_str
-       )
-     )}
-  end
+  def handle_info({:stdout, id, data}, socket), do: do_output("", id, data, socket)
+  def handle_info({:stderr, id, data}, socket), do: do_output("error", id, data, socket)
+  def handle_info({:DOWN, id, _, _, :normal}, socket), do: do_output("ok", id, "Program exited normally", socket)
+  def handle_info({:DOWN, id, _, _, {:exit_status, n}}, socket), do: do_output("error", id, "Program exited with status #{n}", socket)
 
   def handle_info(data, socket) do
     Logger.warn("Unhandled info with data: #{inspect(data)}")
@@ -178,9 +158,7 @@ defmodule PrexentWeb.SlidesLive do
   defp parse_slide_num(socket, slide) do
     num = parse_slide_num(slide)
 
-    if valid_slide?(socket, num),
-      do: num,
-      else: 0
+    if valid_slide?(socket, num), do: num, else: 0
   end
 
   defp parse_slide_num(slide) when is_integer(slide), do: slide
