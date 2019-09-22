@@ -28,10 +28,13 @@
                 <div class="code-output">
                     <div class="scroll-wrapper">
                         <p>
-                            <%= raw Map.get(@code_runners, @slide) %>
+                            <%= raw Map.get(@code_runners, slide_idx) %>
                         </p>
                     </div>
-                    <button phx-click="close" phx-value-slide_idx="<%= slide_idx %>">Close</button>
+                    <div class="buttons">
+                        <button phx-click="stop" phx-value-slide_idx="<%= slide_idx %>">Stop</button>
+                        <button phx-click="close" phx-value-slide_idx="<%= slide_idx %>">Close</button>
+                    </div>
                 </div>
             </div>
         </div>

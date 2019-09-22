@@ -124,7 +124,7 @@ code {
     font-size: .7rem;
 }
 
-.code-output button, .code .buttons{
+.code-output .buttons, .code .buttons{
     position: absolute;
     right: 10px;
     bottom: 10px;
