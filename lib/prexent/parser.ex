@@ -91,10 +91,10 @@ defmodule Prexent.Parser do
       ["header" | args] -> %{type: :header, content: Enum.at(args, 0)}
       ["footer" | args] -> %{type: :footer, content: Enum.at(args, 0)}
       ["custom_css" | args] -> %{type: :custom_css, content: Enum.at(args, 0)}
-      ["global_background" | args] -> %{ type: :global_background, content: Enum.at(args, 0) }
-      ["slide_background" | args] -> %{ type: :slide_background, content: Enum.at(args, 0) }
-      ["slide_classes" | args] -> %{ type: :slide_classes, content: args }
-      _ -> %{ type: :error, content: "wrong command !#{rest}" }
+      ["global_background" | args] -> %{type: :global_background, content: Enum.at(args, 0)}
+      ["slide_background" | args] -> %{type: :slide_background, content: Enum.at(args, 0)}
+      ["slide_classes" | args] -> %{type: :slide_classes, content: args}
+      _ -> %{type: :error, content: "wrong command !#{rest}"}
     end
   end
 
