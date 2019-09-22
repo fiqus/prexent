@@ -8,9 +8,9 @@ defmodule Prexent.ParserTest do
              [
                %{content: "test/prexent/background.jpg", type: :background},
                %{type: :html, content: ""},
-               %{content: " Header", type: :header},
+               %{content: "Header", type: :header},
                %{content: "", type: :html},
-               %{content: " Footer", type: :footer},
+               %{content: "Footer", type: :footer},
                %{
                  content: "<h1>Title</h1>\n<ul>\n<li>Point 1\n</li>\n<li>Point 2\n</li>\n</ul>\n",
                  type: :html

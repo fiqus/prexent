@@ -42,6 +42,6 @@ defmodule PrexentWeb.SlidesView do
   def get_custom_css(slide) do
     slide
     |> Enum.filter(&(Map.get(&1, :type) == :custom_css))
-    |> Enum.map(&(&1.content))
+    |> Enum.map(& &1.content)
   end
 end
