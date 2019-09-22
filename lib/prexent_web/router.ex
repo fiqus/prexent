@@ -1,4 +1,5 @@
 defmodule PrexentWeb.Router do
+  @moduledoc false
   use PrexentWeb, :router
 
   pipeline :browser do

@@ -1,4 +1,5 @@
 defmodule PrexentWeb.SlidesView do
+  @moduledoc false
   use PrexentWeb, :view
 
   def parse_slide(slide_idx, content_idx, %{type: :code, lang: lang, content: content}) do

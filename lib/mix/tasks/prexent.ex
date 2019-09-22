@@ -1,4 +1,20 @@
 defmodule Mix.Tasks.Prexent do
+  @moduledoc """
+  Run the Phoenix server with the endpoints defined by Prexent.
+
+  Execute `mix prexent` in your prexent project.
+
+  The default markdown file is `slides.md`, if you want to use another source file, run:
+
+      $ mix prexent FILE_NAME
+
+  The source markdown file is set in `Application.put_env(:prexent, :source_md, source_md)` to be consumed by the live view endpoint.
+
+  The default port is 4000, you can change it passing the `PORT` env:
+
+      $ PORT=4040 mix prexent
+
+  """
   use Mix.Task
 
   @doc false
