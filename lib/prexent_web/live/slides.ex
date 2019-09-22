@@ -42,6 +42,10 @@ defmodule PrexentWeb.SlidesLive do
     handle_slide_change(socket, max(socket.assigns.slide + 2, 0))
   end
 
+  def handle_event("keyup", _data, socket) do
+    {:noreply, socket}
+  end
+
   def handle_event("run", %{"slide_idx" => slide_idx, "content_idx" => content_idx}, socket) do
     block = get_slide_block(socket, slide_idx, content_idx)
 
@@ -110,15 +114,17 @@ defmodule PrexentWeb.SlidesLive do
 
   def handle_event(
         "apply",
-        %{"slide_idx" => slide_idx, "content_idx" => content_idx} = asd,
+        %{"slide_idx" => slide_idx, "content_idx" => content_idx, "code" => code},
         socket
       ) do
-    asd |> IO.inspect(label: "AAAAAAAA")
+    filename = System.tmp_dir!() <> "/prexent_slide_#{slide_idx}_#{content_idx}"
+    File.write!(filename, code)
 
     block =
       get_slide_block(socket, slide_idx, content_idx)
       |> Map.put(:type, :code)
-      |> IO.inspect(label: "BLOCKKKK")
+      |> Map.put(:content, code)
+      |> Map.put(:filename, filename)
 
     {:noreply, socket |> put_slide_block(slide_idx, content_idx, block)}
   end
@@ -197,10 +203,14 @@ defmodule PrexentWeb.SlidesLive do
     assign(socket, :slides, slides)
   end
 
-  defp handle_slide_change(socket, slide) do
+  defp handle_slide_change(%{assigns: assigns} = socket, slide) do
     num = parse_slide_num(socket, slide)
 
-    if socket.assigns.slide != num do
+    is_editing? =
+      Enum.at(assigns.slides, assigns.slide)
+      |> Enum.find(&(&1.type == :edit)) != nil
+
+    if !is_editing? and socket.assigns.slide != num do
       {
         :noreply,
         live_redirect(
