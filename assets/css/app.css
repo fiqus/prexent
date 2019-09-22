@@ -113,21 +113,25 @@ code {
 .code{
     position: relative;
 }
+
 .code button, .code-output button{
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
     border: 1px solid black;
     border-radius: 5px;
     background-color: #d1d1d1;
     font-size: .7rem;
 }
+
+.code-output button, .code .buttons{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
 .code-output{
     position: relative;
     width: 100%;
     height: 100%;
 }
-
 
 .code-output-container{
     position:absolute;
@@ -159,4 +163,9 @@ code {
 
 .code-output p span.ok{
     color: #11CC11;
+}
+
+.hljs{
+    padding: .9em;
+    border-radius: 10px;
 }
