@@ -20,7 +20,7 @@ defmodule Feature_showcase.MixProject do
 
   defp deps do
     [
-      {:prexent, path: "../../"}
+      {:prexent, "~> 0.1.1"}
     ]
   end
 
