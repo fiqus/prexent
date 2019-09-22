@@ -152,3 +152,11 @@ code {
     padding: 1em;
     white-space: pre-wrap;
 }
+
+.code-output p span.error{
+    color: #CC1111;
+}
+
+.code-output p span.ok{
+    color: #11CC11;
+}

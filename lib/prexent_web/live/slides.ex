@@ -101,6 +101,18 @@ defmodule PrexentWeb.SlidesLive do
     }
   end
 
+  def handle_info({pid, :result, %{status: status}}, socket) do
+    slide_idx = Map.get(socket.assigns.pid_slides, pid)
+    class = if status == 0, do: "ok", else: "error"
+    exit_str = "<span class='#{class}'>Program exited with code #{status}</span>"
+    {:noreply,
+      assign(socket,
+        :code_runners,
+        Map.put(socket.assigns.code_runners,
+          slide_idx,
+          Map.get(socket.assigns.code_runners, slide_idx) <> exit_str))}
+  end
+
   def handle_info(data, socket) do
     Logger.warn("Unhandled info with data: #{inspect(data)}")
     {:noreply, socket}
