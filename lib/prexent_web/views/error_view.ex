@@ -1,4 +1,5 @@
 defmodule PrexentWeb.ErrorView do
+  @moduledoc false
   use PrexentWeb, :view
 
   # If you want to customize a particular status code

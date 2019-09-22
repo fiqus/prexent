@@ -7,7 +7,21 @@ defmodule Prexent.Parser do
   @typedoc """
   A single slide
   """
-  @type slide() :: [Map.t(type :: :html | :code | :error, content :: String.t())]
+  @type slide() :: [
+          Map.t(
+            type ::
+              :html
+              | :code
+              | :header
+              | :footer
+              | :custom_css
+              | :slide_background
+              | :slide_classes
+              | :global_background
+              | :error,
+            content :: String.t()
+          )
+        ]
 
   @typedoc """
   The result of the parse.

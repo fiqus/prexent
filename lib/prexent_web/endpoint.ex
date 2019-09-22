@@ -1,4 +1,5 @@
 defmodule PrexentWeb.Endpoint do
+  @moduledoc false
   use Phoenix.Endpoint, otp_app: :prexent
 
   # socket "/socket", PrexentWeb.UserSocket,

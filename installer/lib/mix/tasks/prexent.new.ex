@@ -2,10 +2,14 @@ defmodule Mix.Tasks.Prexent.New do
   @moduledoc """
   Creates a new Prexent project.
 
-  `mix prexent.new NAME`
+      $ mix prexent.new NAME
+
+  This command will create the structure of a presentation, will prompt to the user to install dependencies and
+  create an example `slides.md` source file.
   """
   use Mix.Task
 
+  @doc false
   def run(argv) do
     check_input_file!(argv)
     elixir_version_check!()
