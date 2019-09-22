@@ -6,7 +6,7 @@
         <%= if slide_idx < @slide - 1, do: "lefter" %>
         <%= if slide_idx > @slide + 1, do: "righter" %>" 
            style="
-                background-image: url(<%= get_background(slide)%>);
+                background-image: url(<%= get_background(hd(@slides))%>);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: cover;
