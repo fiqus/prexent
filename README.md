@@ -1,4 +1,6 @@
 # Prexent
+[![Hex pm](http://img.shields.io/hexpm/v/prexent.svg?style=flat)](https://hex.pm/packages/prexent)
+
 > ### Markdown |> HTML |> code |> run |> edit
 > Create fast, live and beautiful presentations from Markdown powered by Phoenix LiveView.
 
@@ -12,7 +14,6 @@ Install the mix archive, create presentations quicky on the fly, edit markdown, 
 ## Pre-requisites
   * `Elixir` 1.7 or later
   * `Erlang/OTP` 18 or later
-  * `Node.js` 10 or later
 
 ## Create a presentation
 Install the mix archive installer from Hex:
@@ -57,7 +58,13 @@ Customize your presentations, add prexent commands wherever you want in your mar
     !footer Slider
     !custom_css demo_files/custom.css
 
-#### Background for some slides
+#### Background image
+Global background
+
+    !global_background /background.jpg
+
+Background for a specific slide
+
     !slide_background /background.jpg
 
 #### Include other markdown files
