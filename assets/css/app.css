@@ -190,7 +190,6 @@ code.hljs>*{
 }
 
 .header {
-    color: gray;
     text-align: right;
     font-size: .9rem;
     position: absolute;
@@ -201,8 +200,11 @@ code.hljs>*{
     background-color: #efefef;
 }
 
-.footer {
+.header-text {
     color: gray;
+}
+
+.footer {
     text-align: right;
     font-size: .9rem;
     position: absolute;
@@ -211,6 +213,10 @@ code.hljs>*{
     left: 0;
     padding: .7rem;
     background-color: #efefef;
+}
+
+.footer-text {
+    color: gray;
 }
 
 .content {

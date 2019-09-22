@@ -12,16 +12,16 @@
                 <%= if get_global_background(hd(@slides)) != "", do: "background-image: url(#{get_global_background(hd(@slides))});" %>
                 <%= if get_slide_background(slide) != "", do: "background-image: url(#{get_slide_background(slide)});" %>
                 ">
-           <div class="header right">
-              <span><%= get_header(hd(@slides)) %></span>
+           <div class="header">
+              <span class="header-text"><%= get_header(hd(@slides)) %></span>
            </div>
            <div class="content">
               <%= for {slide_data, content_idx} <- Enum.with_index(slide) do %>
                   <%= raw parse_slide(slide_idx, content_idx, slide_data) %>
               <% end %>
            </div>
-            <div class="footer right">
-               <span class="footer right"><%= get_footer(hd(@slides)) %> | <%= slide_idx + 1%></span>
+            <div class="footer">
+               <span class="footer-text"><%= get_footer(hd(@slides)) %> | <%= slide_idx + 1%></span>
             </div>
 
             <div class="code-output-container <%= if Map.get(@code_runners, slide_idx) != nil, do: "running" %>">
