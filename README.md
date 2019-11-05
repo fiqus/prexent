@@ -46,7 +46,7 @@ Then, run prexent:
 
 If you change the file name you can optionally pass that to the task:
 
-    $ mix present source_file.md
+    $ mix prexent source_file.md
 
 Access to `http://localhost:4000` for the slideshow view or `http://localhost:4000/presenter` for the presenter view.
 
