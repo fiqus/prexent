@@ -2,7 +2,7 @@ defmodule Prexent.New.MixProject do
   use Mix.Project
 
   @version "0.2.0"
-  @github_path "spawnfest/prexent"
+  @github_path "fiqus/prexent"
   @url "https://github.com/#{@github_path}"
 
   def project do
