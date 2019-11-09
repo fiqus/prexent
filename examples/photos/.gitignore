@@ -1,2 +1,4 @@
 /_build/
 deps
+# to avoid conflicts with prexent versions
+mix.lock
