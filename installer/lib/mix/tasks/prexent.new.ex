@@ -67,6 +67,7 @@ defmodule Mix.Tasks.Prexent.New do
             elixir: "~> 1.5",
             start_permanent: Mix.env() == :prod,
             deps: deps(),
+            preferred_cli_env: [prexent: :prod],
             config_path: config_path()
           ]
         end
@@ -79,7 +80,7 @@ defmodule Mix.Tasks.Prexent.New do
 
         defp deps do
           [
-            {:prexent, "~> 0.2.0"}
+            {:prexent, "~> 0.2"}
           ]
         end
 
