@@ -20,7 +20,7 @@ This tool is meant to be adopted by the Elixir community as a main presentation 
 ## Create a presentation
 Install the mix archive installer from Hex:
 
-    $ mix archive.install hex prexent_new 0.2.0
+    $ mix archive.install hex prexent_new 0.2.1
 
 Or create it from an unreleased version:
 
