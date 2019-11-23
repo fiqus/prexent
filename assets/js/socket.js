@@ -8,9 +8,10 @@
 // from the params if you are not using authentication.
 import {Socket} from "phoenix"
 import LiveSocket from "phoenix_live_view"
+import hooks from "./hooks"
 
 // const socket = new Socket("/socket", {params: {token: window.userToken}});
-const socket = new LiveSocket("/live", Socket);
+const socket = new LiveSocket("/live", Socket, {hooks});
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,

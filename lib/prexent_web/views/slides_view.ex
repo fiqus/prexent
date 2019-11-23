@@ -5,7 +5,7 @@ defmodule PrexentWeb.SlidesView do
   def parse_slide(slide_idx, content_idx, %{type: :code, lang: lang, content: content}) do
     phx_values_idx = ~s(phx-value-slide_idx="#{slide_idx}" phx-value-content_idx="#{content_idx}")
     ~s(<div class="code">
-      <pre><code class="#{lang}">#{content}</code></pre>
+      <pre><code phx-hook="code-highlight" class="#{lang}">#{content}</code></pre>
       <div class="buttons">
         <button phx-click="edit" #{phx_values_idx}>Edit</button>
         <button phx-click="run" #{phx_values_idx}>Run</button>
