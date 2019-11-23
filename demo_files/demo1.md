@@ -1,5 +1,5 @@
 !header Fiqus
-!footer Slider
+!footer Prexent
 
 ### Testing command code not found:
 !code not/found.exs
@@ -56,17 +56,21 @@ Maine | ME     | Augusta
 
 | Texas | TX     | Austin  |
 |-------|--------|---------|
-| Maine | ME     | Augusta |    
+| Maine | ME     | Augusta |
+
 ---
 
-# Demo Slides
+# This is a H1
 
+## This is a H2
 
-# This is an H1
+### This is a H3
 
-## This is an H2
+#### This is a H4
 
-###### This is an H6
+##### This is a H5
+
+###### This is a H6
 
 ---
 
@@ -100,16 +104,17 @@ id sem consectetuer libero luctus adipiscing.
 *   Green
 *   Blue
 
-1.  Bird
-2.  McHale
-3.  Parish
 
----
+1.  Einstein
+2.  Gauss
+3.  Tesla
 
-*   Bird
 
-*   Magic
+- Bird
 
+- Dog
+
+- Cat
 
 ---
 
@@ -132,11 +137,11 @@ Here is an example of AppleScript:
 
 ---
 
-This is [an example](http://example.com/ "Title") inline link.
+This is [an example](http://example.com/ "Title") `inline` link.
 
-[This link](http://example.net/) has no title attribute.
+[This link](http://example.net/) has `no title` attribute.
 
-I get 10 times more traffic from [Google] [1] than from
+I get `10 times` more traffic from [Google] [1] than from
 [Yahoo] [2] or [MSN] [3].
 
   [1]: http://google.com/        "Google"
@@ -155,17 +160,6 @@ __double underscores__
 
 ---
 
-Use the `printf()` function.
-
----
+##### Inserted image
 
 ![Image](/demo_files/test.jpeg)
-
----
-    
-State | Abbrev | Capital
-----: | :----: | -------
-Texas | TX     | Austin
-Maine | ME     | Augusta
-    
-
