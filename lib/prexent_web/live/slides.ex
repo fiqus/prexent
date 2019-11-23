@@ -8,7 +8,7 @@ defmodule PrexentWeb.SlidesLive do
     if Map.get(assigns, :presenter, false) do
       PrexentWeb.SlidesView.render("slides_presenter.html", assigns)
     else
-      PrexentWeb.SlidesView.render("slides.html", assigns)
+      PrexentWeb.SlidesView.render("slides_main.html", assigns)
     end
   end
 

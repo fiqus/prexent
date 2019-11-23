@@ -1,44 +1,42 @@
-<div id="slide_container" phx-keyup="keyup" phx-target="window">
-    <%= for css <- get_custom_css(hd(@slides)) do %>
-        <link rel="stylesheet" href="<%= css %>"/>
-    <% end %>
-    <%= for {slide, slide_idx} <- Enum.with_index(@slides) do %>
-        <div phx-click="forward_backward" phx-value-clicked="<%= slide_idx %>" class="slide <%= Enum.join(get_slide_classes(slide), " ") %>
-        <%= if slide_idx == @slide - 1 , do: "left" %>
-        <%= if slide_idx == @slide + 1 , do: "right" %>
-        <%= if slide_idx < @slide - 1, do: "lefter" %>
-        <%= if slide_idx > @slide + 1, do: "righter" %>" 
-           style="
-                <%= if get_global_background(hd(@slides)) != "", do: "background-image: url(#{get_global_background(hd(@slides))});" %>
-                <%= if get_slide_background(slide) != "", do: "background-image: url(#{get_slide_background(slide)});" %>
-                ">
-           <div class="header">
-              <span class="header-text"><%= get_header(hd(@slides)) %></span>
-           </div>
-           <div class="content">
-              <%= for {slide_data, content_idx} <- Enum.with_index(slide) do %>
-                  <%= raw parse_slide(slide_idx, content_idx, slide_data) %>
-              <% end %>
-           </div>
-            <div class="footer">
-               <span class="footer-text"><%= get_footer(hd(@slides)) %> | <%= slide_idx + 1%></span>
-            </div>
+<%= for css <- get_custom_css(hd(@slides)) do %>
+    <link rel="stylesheet" href="/<%= css %>"/>
+<% end %>
+<%= for {slide, slide_idx} <- Enum.with_index(@slides) do %>
+    <div phx-click="forward_backward" phx-value-clicked="<%= slide_idx %>" class="slide <%= Enum.join(get_slide_classes(slide), " ") %>
+    <%= if slide_idx == @slide - 1 , do: "left" %>
+    <%= if slide_idx == @slide + 1 , do: "right" %>
+    <%= if slide_idx < @slide - 1, do: "lefter" %>
+    <%= if slide_idx > @slide + 1, do: "righter" %>" 
+        style="
+            <%= if get_global_background(hd(@slides)) != "", do: "background-image: url(#{get_global_background(hd(@slides))});" %>
+            <%= if get_slide_background(slide) != "", do: "background-image: url(#{get_slide_background(slide)});" %>
+            ">
+        <div class="header">
+            <span class="header-text"><%= get_header(hd(@slides)) %></span>
+        </div>
+        <div class="content">
+            <%= for {slide_data, content_idx} <- Enum.with_index(slide) do %>
+                <%= raw parse_slide(slide_idx, content_idx, slide_data) %>
+            <% end %>
+        </div>
+        <div class="footer">
+            <span class="footer-text"><%= get_footer(hd(@slides)) %> | <%= slide_idx + 1%></span>
+        </div>
 
-            <div class="code-output-container <%= if Map.get(@code_runners, slide_idx) != nil, do: "running" %>">
-                <div class="code-output">
-                    <div class="scroll-wrapper">
-                        <p>
-                            <%= raw Map.get(@code_runners, slide_idx) %>
-                        </p>
-                    </div>
-                    <div class="buttons">
-                        <%= if show_stop_button?(Map.get(assigns, :pid_slides, %{}), slide_idx) do %>
-                        <button phx-click="stop" phx-value-slide_idx="<%= slide_idx %>">Stop</button>
-                        <% end %>
-                        <button phx-click="close" phx-value-slide_idx="<%= slide_idx %>">Close</button>
-                    </div>
+        <div class="code-output-container <%= if Map.get(@code_runners, slide_idx) != nil, do: "running" %>">
+            <div class="code-output">
+                <div class="scroll-wrapper">
+                    <p>
+                        <%= raw Map.get(@code_runners, slide_idx) %>
+                    </p>
+                </div>
+                <div class="buttons">
+                    <%= if show_stop_button?(Map.get(assigns, :pid_slides, %{}), slide_idx) do %>
+                    <button phx-click="stop" phx-value-slide_idx="<%= slide_idx %>">Stop</button>
+                    <% end %>
+                    <button phx-click="close" phx-value-slide_idx="<%= slide_idx %>">Close</button>
                 </div>
             </div>
         </div>
-    <% end %>
-</div>
+    </div>
+<% end %>

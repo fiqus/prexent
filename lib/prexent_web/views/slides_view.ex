@@ -2,6 +2,8 @@ defmodule PrexentWeb.SlidesView do
   @moduledoc false
   use PrexentWeb, :view
 
+  def render_slides(assigns), do: render("slides.html", assigns)
+
   def parse_slide(slide_idx, content_idx, %{type: :code, lang: lang, content: content}) do
     phx_values_idx = ~s(phx-value-slide_idx="#{slide_idx}" phx-value-content_idx="#{content_idx}")
     ~s(<div class="code">
