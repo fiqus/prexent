@@ -17,7 +17,14 @@ defmodule PrexentWeb.SlidesLive do
     source_md = Application.get_env(:prexent, :source_md) || "demo_files/demo1.md"
     slides = Prexent.Parser.to_parsed_list(source_md)
 
-    {:ok, assign(socket, slides: slides, slide: 0, code_runners: %{}, pid_slides: %{})}
+    {:ok,
+     assign(socket,
+       slide: 0,
+       slides: slides,
+       slides_count: length(slides),
+       code_runners: %{},
+       pid_slides: %{}
+     )}
   end
 
   def handle_params(%{"slide" => slide}, _uri, socket) do

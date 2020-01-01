@@ -20,7 +20,7 @@
             <% end %>
         </div>
         <div class="footer">
-            <span class="footer-text"><%= get_footer(hd(@slides)) %> | <%= slide_idx + 1%></span>
+            <span class="footer-text"><%= get_footer(hd(@slides)) %> | <b><%= slide_idx + 1%></b><small>/<%= @slides_count %></small></span>
         </div>
 
         <div class="code-output-container <%= if Map.get(@code_runners, slide_idx) != nil, do: "running" %>">
