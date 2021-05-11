@@ -38,3 +38,5 @@ npm-debug.log
 
 *.iml
 .idea
+
+/exported/
